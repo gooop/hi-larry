@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi, Larry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            padding: 40px;
+            background: #d4c5a9;
+            color: #2a2a2a;
+        }
+
+        h1 {
+            font-size: 72px;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #2a2a2a;
+            text-shadow: 3px 3px 0px #8b7355;
+            letter-spacing: 4px;
+        }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .upload-section, .file-list-section {
+            flex: 1;
+            background: #f4e4c1;
+            padding: 30px;
+            border-radius: 0;
+            box-shadow: 
+                inset -2px -2px 0 #8b7355,
+                inset 2px 2px 0 #fff5e1,
+                4px 4px 0 rgba(0,0,0,0.2);
+            border: 3px solid #2a2a2a;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2a2a2a;
+            font-weight: bold;
+            font-size: 24px;
+            border-bottom: 3px solid #2a2a2a;
+            padding-bottom: 10px;
+        }
+
+        .upload-btn, .download-btn {
+            background: #8b7355;
+            color: #f4e4c1;
+            padding: 12px 24px;
+            border: 3px solid #2a2a2a;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            box-shadow: 
+                inset -1px -1px 0 #5a4a3a,
+                inset 1px 1px 0 #ab9375,
+                3px 3px 0 rgba(0,0,0,0.3);
+            transition: all 0.1s;
+        }
+
+        .upload-btn:hover, .download-btn:hover {
+            background: #ab9375;
+            transform: translate(1px, 1px);
+            box-shadow: 
+                inset -1px -1px 0 #5a4a3a,
+                inset 1px 1px 0 #ab9375,
+                2px 2px 0 rgba(0,0,0,0.3);
+        }
+
+        .upload-btn:active, .download-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 
+                inset -1px -1px 0 #5a4a3a,
+                inset 1px 1px 0 #ab9375,
+                1px 1px 0 rgba(0,0,0,0.3);
+        }
+
+        .upload-btn {
+            margin-top: 10px;
+        }
+
+        .download-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #fff5e1;
+            border: 2px solid #2a2a2a;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+        }
+
+        input[type="file"]::file-selector-button {
+            background: #8b7355;
+            color: #f4e4c1;
+            border: 2px solid #2a2a2a;
+            padding: 8px 16px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: #ab9375;
+        }
+
+        .file-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fff5e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #2a2a2a;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+
+        .file-item span {
+            font-weight: bold;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            border: 2px solid #2a2a2a;
+            display: none;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background: #90ee90;
+            color: #2a2a2a;
+            display: block;
+        }
+
+        .status.error {
+            background: #ff6b6b;
+            color: #2a2a2a;
+            display: block;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03),
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    
+    <h1>Hi, Larry</h1>
+    
+    <div class="container">
+        <div class="upload-section">
+            <h2>UPLOAD FILE</h2>
+            <input type="file" id="fileInput">
+            <br>
+            <button class="upload-btn" onclick="uploadFile()">► UPLOAD</button>
+            <div id="uploadStatus" class="status"></div>
+        </div>
+
+        <div class="file-list-section">
+            <h2>FILES</h2>
+            <div id="fileList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Load file list on page load
+        loadFiles();
+
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const statusDiv = document.getElementById('uploadStatus');
+            
+            if (!fileInput.files.length) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '⚠ ERROR: Please select a file';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✓ SUCCESS: File uploaded!';
+                    fileInput.value = '';
+                    loadFiles();
+                } else {
+                    throw new Error('Upload failed');
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '⚠ ERROR: ' + error.message;
+            }
+        }
+
+        async function loadFiles() {
+            try {
+                const response = await fetch('/list');
+                const files = await response.json();
+                
+                const fileListDiv = document.getElementById('fileList');
+                fileListDiv.innerHTML = '';
+
+                if (files.length === 0) {
+                    fileListDiv.innerHTML = '<div style="padding: 15px; text-align: center; opacity: 0.6;">No files available</div>';
+                    return;
+                }
+
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <span>► ${file}</span>
+                        <button class="download-btn" onclick="downloadFile('${file}')">⬇ DOWNLOAD</button>
+                    `;
+                    fileListDiv.appendChild(fileItem);
+                });
+            } catch (error) {
+                console.error('Error loading files:', error);
+            }
+        }
+
+        async function downloadFile(filename) {
+            try {
+                const response = await fetch(`/download/${filename}`);
+                const blob = await response.blob();
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (error) {
+                console.error('Error downloading file:', error);
+            }
+        }
+    </script>
+</body>
+</html>
