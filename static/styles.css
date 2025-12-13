@@ -127,6 +127,22 @@ input[type="file"]::file-selector-button:hover {
 
 .file-item span {
     font-weight: bold;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    margin-right: 15px;
+}
+
+.file-item span::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: linear-gradient(to right, transparent, var(--color-cream-very-light));
+    pointer-events: none;
 }
 
 .status {
