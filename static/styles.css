@@ -225,3 +225,55 @@ input[type="file"]::file-selector-button:hover {
         opacity: 1;
     }
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 42px;
+        margin-bottom: 30px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .file-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .upload-section {
+        order: 1;
+    }
+
+    .file-list-section {
+        order: 2;
+    }
+
+    .upload-section, .file-list-section {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .file-item span {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .download-btn {
+        width: 100%;
+    }
+}
