@@ -92,8 +92,10 @@
         }
 
         async function downloadFile(filename) {
+            //TODO: make this function download, not open PDFs
             try {
                 const response = await fetch(`/download/${filename}`);
+                //TODO: Use a stream
                 const blob = await response.blob();
                 
                 const url = window.URL.createObjectURL(blob);
