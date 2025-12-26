@@ -35,6 +35,8 @@ async function uploadFile() {
 }
 
 async function loadFiles() {
+    const statusDiv = document.getElementById('uploadStatus');
+
     try {
         const response = await fetch('/list');
         const files = await response.json();
@@ -53,15 +55,19 @@ async function loadFiles() {
             fileItem.innerHTML = `
                 <span>► ${file}</span>
                 <button class="download-btn" onclick="downloadFile('${file}')">⬇ DOWNLOAD</button>
+                <button class="delete-btn" onclick="deleteFile('${file}')">✖</button>
             `;
             fileListDiv.appendChild(fileItem);
         });
     } catch (error) {
         console.error('Error loading files:', error);
+        statusDiv.className = 'status error';
+        statusDiv.textContent = '⚠ ERROR: Failed to load files' + error.message;
     }
 }
 
 async function downloadFile(filename) {
+    const statusDiv = document.getElementById('uploadStatus');
     //TODO: make this function download, not open PDFs
     try {
         const response = await fetch(`/download/${filename}`);
@@ -77,6 +83,26 @@ async function downloadFile(filename) {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
     } catch (error) {
-        console.error('Error downloading file:', error);
+        statusDiv.className = 'status error';
+        statusDiv.textContent = '⚠ ERROR: ' + error.message;
+    }
+}
+
+async function deleteFile(filename) {
+    const statusDiv = document.getElementById('uploadStatus');
+    try {
+        const response = await fetch(`/delete/${filename}`, {method: 'DELETE'});
+        if (response.ok) {
+            statusDiv.className = 'status success';
+            statusDiv.textContent = '✓ SUCCESS: File deleted!';
+            loadFiles();
+        } else if (response.status === 404) {
+            throw new Error('Delete failed, file not found');
+        } else {
+            throw new Error('Delete failed')
+        }
+    } catch (error) {
+        statusDiv.className = 'status error';
+        statusDiv.textContent = '⚠ ERROR: ' + error.message;
     }
 }

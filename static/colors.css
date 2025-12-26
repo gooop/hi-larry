@@ -7,10 +7,13 @@
     --color-brown-dark: #5a4a3a;
     --color-brown-light: #ab9375;
     --color-beige-medium: #d4c5a9;
+    --color-green: #90ee90;
+    --color-red: #e02b2b;
+    --color-light-red: #ff6b6b;
+    --color-very-light-red: #fe8181;
+    --color-dark-red: #ae2222;
     
     /* Status colors */
-    --color-success: #90ee90;
-    --color-error: #ff6b6b;
     
     /* Shadow colors */
     --shadow-light: rgba(0, 0, 0, 0.2);

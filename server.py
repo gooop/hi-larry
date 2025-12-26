@@ -30,5 +30,15 @@ def list_files():
 def download(filename):
     return send_file(os.path.join(UPLOAD_FOLDER, filename), as_attachment=True)
 
+@app.route('/delete/<filename>', methods=['DELETE'])
+def delete(filename):
+    try:
+        os.remove(os.path.join(UPLOAD_FOLDER, filename))
+    except FileNotFoundError as e:
+        return 'File not found', 404
+    except Exception as e:
+        return 'Unknown error', 500
+    return 'Success', 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
