@@ -1,0 +1,82 @@
+// Load file list on page load
+loadFiles();
+
+async function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const statusDiv = document.getElementById('uploadStatus');
+    
+    if (!fileInput.files.length) {
+        statusDiv.className = 'status error';
+        statusDiv.textContent = '⚠ ERROR: Please select a file';
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            statusDiv.className = 'status success';
+            statusDiv.textContent = '✓ SUCCESS: File uploaded!';
+            fileInput.value = '';
+            loadFiles();
+        } else {
+            throw new Error('Upload failed');
+        }
+    } catch (error) {
+        statusDiv.className = 'status error';
+        statusDiv.textContent = '⚠ ERROR: ' + error.message;
+    }
+}
+
+async function loadFiles() {
+    try {
+        const response = await fetch('/list');
+        const files = await response.json();
+        
+        const fileListDiv = document.getElementById('fileList');
+        fileListDiv.innerHTML = '';
+
+        if (files.length === 0) {
+            fileListDiv.innerHTML = '<div style="padding: 15px; text-align: center; opacity: 0.6;">No files available</div>';
+            return;
+        }
+
+        files.forEach(file => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <span>► ${file}</span>
+                <button class="download-btn" onclick="downloadFile('${file}')">⬇ DOWNLOAD</button>
+            `;
+            fileListDiv.appendChild(fileItem);
+        });
+    } catch (error) {
+        console.error('Error loading files:', error);
+    }
+}
+
+async function downloadFile(filename) {
+    //TODO: make this function download, not open PDFs
+    try {
+        const response = await fetch(`/download/${filename}`);
+        //TODO: Use a stream
+        const blob = await response.blob();
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    } catch (error) {
+        console.error('Error downloading file:', error);
+    }
+}
