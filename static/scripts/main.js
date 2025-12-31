@@ -67,13 +67,7 @@ async function loadFiles() {
 }
 
 async function downloadFile(filename) {
-    const a = document.createElement('a');
-    a.href = `/download/${filename}`;
-    a.download = filename;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    window.location.href = `/download/${filename}`
 }
 
 async function deleteFile(filename) {
