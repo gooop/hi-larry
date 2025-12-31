@@ -67,26 +67,13 @@ async function loadFiles() {
 }
 
 async function downloadFile(filename) {
-    // const statusDiv = document.getElementById('uploadStatus');
-    // //TODO: make this function download, not open PDFs
-    // try {
-    //     const response = await fetch(`/download/${filename}`);
-    //     //TODO: Use a stream
-    //     const blob = await response.blob();
-        
-    //     const url = window.URL.createObjectURL(blob);
-    //     const a = document.createElement('a');
-    //     a.href = url;
-    //     a.download = filename;
-    //     document.body.appendChild(a);
-    //     a.click();
-    //     window.URL.revokeObjectURL(url);
-    //     document.body.removeChild(a);
-    // } catch (error) {
-    //     statusDiv.className = 'status error';
-    //     statusDiv.textContent = '⚠ ERROR: ' + error.message;
-    // }
-    window.location.href = `/download/${filename}`
+    const a = document.createElement('a');
+    a.href = `/download/${filename}`;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
 
 async function deleteFile(filename) {
