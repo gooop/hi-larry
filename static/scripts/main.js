@@ -82,8 +82,10 @@ async function loadFiles() {
             fileItem.className = 'file-item';
             fileItem.innerHTML = `
                 <span>► ${file}</span>
-                <button class="download-btn" onclick="downloadFile('${file}')">⬇ DOWNLOAD</button>
-                <button class="delete-btn" onclick="deleteFile('${file}')">✖</button>
+                <div class="file-buttons-group">
+                    <button class="button download-button" onclick="downloadFile('${file}')">⬇ DOWNLOAD</button>
+                    <button class="delete-button" onclick="deleteFile('${file}')">✖</button>
+                </div>
             `;
             fileListDiv.appendChild(fileItem);
         });
