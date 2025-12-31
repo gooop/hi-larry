@@ -16,6 +16,12 @@
         <div class="upload-section">
             <h2>UPLOAD FILE</h2>
             <input type="file" id="fileInput">
+            <div id="progressBar" class="progress-bar">
+                <div class="progress-container">
+                    <div id="progressFill" class="progress-fill"></div>
+                    <div id="progressText" class="progress-text">0%</div>
+                </div>
+            </div>
             <br>
             <button class="upload-btn" onclick="uploadFile()">► UPLOAD</button>
             <div id="uploadStatus" class="status"></div>

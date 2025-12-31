@@ -4,6 +4,9 @@ loadFiles();
 async function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const statusDiv = document.getElementById('uploadStatus');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
     
     if (!fileInput.files.length) {
         statusDiv.className = 'status error';
@@ -14,24 +17,49 @@ async function uploadFile() {
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    try {
-        const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData
-        });
+    // Show progress bar
+    progressBar.style.display = 'block';
+    progressFill.style.width = '0%';
+    progressText.textContent = '0%';
+    statusDiv.textContent = '';
 
-        if (response.ok) {
+    const xhr = new XMLHttpRequest();
+
+    // Track upload progress
+    xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            progressFill.style.width = percentComplete + '%';
+            progressText.textContent = Math.round(percentComplete) + '%';
+        }
+    });
+
+    // Handle completion
+    xhr.addEventListener('load', () => {
+        if (xhr.status === 200) {
             statusDiv.className = 'status success';
             statusDiv.textContent = '✓ SUCCESS: File uploaded!';
             fileInput.value = '';
             loadFiles();
         } else {
-            throw new Error('Upload failed');
+            statusDiv.className = 'status error';
+            statusDiv.textContent = '⚠ ERROR: Upload failed';
         }
-    } catch (error) {
+        // Hide progress bar after a delay
+        setTimeout(() => {
+            progressBar.style.display = 'none';
+        }, 1000);
+    });
+
+    // Handle errors
+    xhr.addEventListener('error', () => {
         statusDiv.className = 'status error';
-        statusDiv.textContent = '⚠ ERROR: ' + error.message;
-    }
+        statusDiv.textContent = '⚠ ERROR: Upload failed';
+        progressBar.style.display = 'none';
+    });
+
+    xhr.open('POST', '/upload');
+    xhr.send(formData);
 }
 
 async function loadFiles() {
