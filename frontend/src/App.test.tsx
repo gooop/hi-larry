@@ -22,7 +22,7 @@ describe('App', () => {
   it('renders the app title', async () => {
     render(<App />);
 
-    expect(screen.getByText('HI-LARRY')).toBeInTheDocument();
+    expect(screen.getByText('Hi, Larry')).toBeInTheDocument();
 
     // Wait for any pending state updates
     await waitFor(() => {
