@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { listFiles, deleteFile, downloadFile } from './api';
+import { listFiles, deleteFile, downloadFile, type FileInfo } from './api';
 import FileList from './components/FileList';
 import FileUploader from './components/FileUploader';
 import './colors.css';
@@ -8,15 +8,14 @@ import './styles.css';
 type StatusType = 'idle' | 'success' | 'error';
 
 export default function App() {
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<FileInfo[]>([]);
   const [deleteStatus, setDeleteStatus] = useState<StatusType>('idle');
   const [deleteMessage, setDeleteMessage] = useState('');
 
   const loadFileList = async () => {
     try {
       const fileInfoList = await listFiles();
-      const filenames = fileInfoList.map((fileInfo) => Object.keys(fileInfo)[0]);
-      setFiles(filenames);
+      setFiles(fileInfoList);
     } catch (error) {
       console.error('Failed to load files:', error);
     }
