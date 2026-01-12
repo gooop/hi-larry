@@ -1,15 +1,15 @@
-from flask import Flask, Response, request, send_file, jsonify
+from flask import Flask, Response, request, send_file, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 import xattr
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/')
 def index():
-    return send_file('index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():

@@ -96,13 +96,20 @@ h2 {
     font-size: 14px;
 }
 
+.file-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .delete-button {
     background: var(--color-light-red);
     color: var(--color-red);
-    padding: 6.45px 10px; /* TODO: awful. Fix all of the spacing everywhere. */
     border: 3px solid var(--color-red);
+    aspect-ratio: 1;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Courier New', monospace;
     font-weight: bold;
     box-shadow: 
