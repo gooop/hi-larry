@@ -55,7 +55,7 @@ export default function App() {
       <div className="tv-frame" />
       <div className="scanlines" />
       <div className="scrollable-content">
-        <h1>HI-LARRY</h1>
+        <h1>Hi, Larry</h1>
         <div className="file-container">
           <div className="section upload-section">
             <h2>UPLOAD FILE</h2>
