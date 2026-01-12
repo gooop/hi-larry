@@ -1,6 +1,7 @@
 from flask import Flask, Response, request, send_file, jsonify
 from werkzeug.utils import secure_filename
 import os
+import xattr
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -24,7 +25,20 @@ def upload():
 @app.route('/list')
 def list_files():
     files = os.listdir(UPLOAD_FOLDER)
-    return jsonify(files)
+    file_info = []
+
+    for file in files:
+        file_path = os.path.join(UPLOAD_FOLDER, file)
+        xattrs = []
+        try:
+            title = xattr.getxattr(file_path, 'hi.larry.title')
+            xattrs.append(title.decode(encoding='utf8'))
+        except Exception as e:
+            print(f"Failed to get title for {file}, exception: {e}")
+
+        file_info.append({file: xattrs})
+
+    return jsonify(file_info)
 
 @app.route('/download/<filename>')
 def download(filename):
