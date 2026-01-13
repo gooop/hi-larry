@@ -55,3 +55,21 @@ export function uploadFile(
 export function downloadFile(filename: string): void {
   window.location.href = `/download/${filename}`;
 }
+
+export async function editFileMetadata(
+  filename: string,
+  title: string
+): Promise<void> {
+  const response = await fetch('/metadata', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ [filename]: title }),
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error('File not found');
+    }
+    throw new Error('Failed to update file metadata');
+  }
+}

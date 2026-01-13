@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { listFiles, deleteFile, downloadFile, type FileInfo } from './api';
+import { listFiles, deleteFile, downloadFile, editFileMetadata, type FileInfo } from './api';
 import FileList from './components/FileList';
 import FileUploader from './components/FileUploader';
 import './colors.css';
@@ -9,8 +9,8 @@ type StatusType = 'idle' | 'success' | 'error';
 
 export default function App() {
   const [files, setFiles] = useState<FileInfo[]>([]);
-  const [deleteStatus, setDeleteStatus] = useState<StatusType>('idle');
-  const [deleteMessage, setDeleteMessage] = useState('');
+  const [operationStatus, setOperationStatus] = useState<StatusType>('idle');
+  const [operationMessage, setOperationMessage] = useState('');
 
   const loadFileList = async () => {
     try {
@@ -28,25 +28,36 @@ export default function App() {
   const handleDelete = async (filename: string) => {
     try {
       await deleteFile(filename);
-      setDeleteStatus('success');
-      setDeleteMessage('✓ SUCCESS: File deleted!');
+      setOperationStatus('success');
+      setOperationMessage('✓ SUCCESS: File deleted!');
       loadFileList();
     } catch (error) {
-      setDeleteStatus('error');
+      setOperationStatus('error');
       const errorMsg = error instanceof Error ? error.message : 'Delete failed';
-      setDeleteMessage(`⚠ ERROR: ${errorMsg}`);
+      setOperationMessage(`⚠ ERROR: ${errorMsg}`);
     }
   };
 
   const handleUploadComplete = () => {
-    setDeleteStatus('idle');
-    setDeleteMessage('');
+    setOperationStatus('idle');
+    setOperationMessage('');
     loadFileList();
   };
 
-  const handleClearDeleteStatus = () => {
-    setDeleteStatus('idle');
-    setDeleteMessage('');
+  const handleClearStatus = () => {
+    setOperationStatus('idle');
+    setOperationMessage('');
+  };
+
+  const handleEditMetadata = async (filename: string, title: string) => {
+    try {
+      await editFileMetadata(filename, title);
+      loadFileList();
+    } catch (error) {
+      setOperationStatus('error');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to edit metadata';
+      setOperationMessage(`⚠ ERROR: ${errorMessage}`);
+    }
   };
 
   return (
@@ -61,11 +72,14 @@ export default function App() {
             <FileUploader
               onUploadComplete={handleUploadComplete}
               externalStatus={
-                deleteStatus !== 'idle'
-                  ? { type: deleteStatus, message: deleteMessage }
+                operationStatus !== 'idle'
+                  ? {
+                      type: operationStatus,
+                      message: operationMessage,
+                    }
                   : null
               }
-              onClearExternalStatus={handleClearDeleteStatus}
+              onClearExternalStatus={handleClearStatus}
             />
           </div>
           <div className="section file-list-section">
@@ -75,6 +89,7 @@ export default function App() {
                 files={files}
                 onDownload={downloadFile}
                 onDelete={handleDelete}
+                onEditMetadata={handleEditMetadata}
               />
             </div>
           </div>

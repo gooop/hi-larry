@@ -63,7 +63,7 @@ export default function FileUploader({
   return (
     <div>
       <input type="file" ref={fileInputRef} />
-      <button className="button upload-button" onClick={handleUpload}>
+      <button className="button button-primary upload-button" onClick={handleUpload}>
         UPLOAD
       </button>
 
