@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { listFiles, deleteFile, uploadFile } from './api';
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { listFiles, deleteFile, uploadFile, editFileMetadata } from "./api";
 
-describe('API functions', () => {
+describe("API functions", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
@@ -10,63 +10,82 @@ describe('API functions', () => {
     vi.restoreAllMocks();
   });
 
-  describe('listFiles', () => {
-    it('should fetch files from /list endpoint', async () => {
-      const mockFiles = [{ 'file1.txt': [] }, { 'file2.pdf': [] }];
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve(mockFiles),
-      });
+  describe("listFiles", () => {
+    it("should fetch files from /list endpoint", async () => {
+      const mockFiles = [{ "file1.txt": [] }, { "file2.pdf": [] }];
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: () => Promise.resolve(mockFiles),
+        })
+      );
 
       const result = await listFiles();
 
-      expect(fetch).toHaveBeenCalledWith('/list');
+      expect(fetch).toHaveBeenCalledWith("/list");
       expect(result).toEqual(mockFiles);
     });
 
-    it('should throw error when fetch fails', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: false,
-        status: 500,
-      });
+    it("should throw error when fetch fails", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: false,
+          status: 500,
+        })
+      );
 
-      await expect(listFiles()).rejects.toThrow('Failed to load files');
+      await expect(listFiles()).rejects.toThrow("Failed to load files");
     });
   });
 
-  describe('deleteFile', () => {
-    it('should send DELETE request to /delete/{filename}', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
+  describe("deleteFile", () => {
+    it("should send DELETE request to /delete/{filename}", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+        })
+      );
+
+      await deleteFile("test.txt");
+
+      expect(fetch).toHaveBeenCalledWith("/delete/test.txt", {
+        method: "DELETE",
       });
-
-      await deleteFile('test.txt');
-
-      expect(fetch).toHaveBeenCalledWith('/delete/test.txt', { method: 'DELETE' });
     });
 
-    it('should throw error when file not found', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: false,
-        status: 404,
-      });
+    it("should throw error when file not found", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: false,
+          status: 404,
+        })
+      );
 
-      await expect(deleteFile('missing.txt')).rejects.toThrow('File not found');
+      await expect(deleteFile("missing.txt")).rejects.toThrow("File not found");
     });
 
-    it('should throw error when delete fails', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: false,
-        status: 500,
-      });
+    it("should throw error when delete fails", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: false,
+          status: 500,
+        })
+      );
 
-      await expect(deleteFile('test.txt')).rejects.toThrow('Delete failed');
+      await expect(deleteFile("test.txt")).rejects.toThrow("Delete failed");
     });
   });
 
-  describe('uploadFile', () => {
-    it('should upload file to /upload endpoint', async () => {
-      const mockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
+  describe("uploadFile", () => {
+    it("should upload file to /upload endpoint", async () => {
+      const mockFile = new File(["content"], "test.txt", {
+        type: "text/plain",
+      });
 
       // Mock XMLHttpRequest as a class
       const openMock = vi.fn();
@@ -82,23 +101,28 @@ describe('API functions', () => {
         addEventListener = addEventListenerMock;
       }
 
-      global.XMLHttpRequest = MockXHR as unknown as typeof XMLHttpRequest;
+      vi.stubGlobal(
+        "XMLHttpRequest",
+        MockXHR as unknown as typeof XMLHttpRequest
+      );
 
       const uploadPromise = uploadFile(mockFile);
 
       // Simulate successful upload
       const loadHandler = addEventListenerMock.mock.calls.find(
-        (call: unknown[]) => call[0] === 'load'
+        (call: unknown[]) => call[0] === "load"
       )?.[1];
       if (loadHandler) loadHandler();
 
       await expect(uploadPromise).resolves.toBeUndefined();
-      expect(openMock).toHaveBeenCalledWith('POST', '/upload');
+      expect(openMock).toHaveBeenCalledWith("POST", "/upload");
       expect(sendMock).toHaveBeenCalled();
     });
 
-    it('should call onProgress callback during upload', async () => {
-      const mockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
+    it("should call onProgress callback during upload", async () => {
+      const mockFile = new File(["content"], "test.txt", {
+        type: "text/plain",
+      });
       const onProgress = vi.fn();
 
       const openMock = vi.fn();
@@ -114,13 +138,16 @@ describe('API functions', () => {
         addEventListener = addEventListenerMock;
       }
 
-      global.XMLHttpRequest = MockXHR as unknown as typeof XMLHttpRequest;
+      vi.stubGlobal(
+        "XMLHttpRequest",
+        MockXHR as unknown as typeof XMLHttpRequest
+      );
 
       const uploadPromise = uploadFile(mockFile, onProgress);
 
       // Simulate progress event
       const progressHandler = uploadAddEventListenerMock.mock.calls.find(
-        (call: unknown[]) => call[0] === 'progress'
+        (call: unknown[]) => call[0] === "progress"
       )?.[1];
       if (progressHandler) {
         progressHandler({ lengthComputable: true, loaded: 50, total: 100 });
@@ -128,12 +155,36 @@ describe('API functions', () => {
 
       // Simulate successful upload
       const loadHandler = addEventListenerMock.mock.calls.find(
-        (call: unknown[]) => call[0] === 'load'
+        (call: unknown[]) => call[0] === "load"
       )?.[1];
       if (loadHandler) loadHandler();
 
       await uploadPromise;
       expect(onProgress).toHaveBeenCalledWith(50);
+    });
+  });
+
+  describe("editFileMetadata", () => {
+    it("should post file metadata on /metadata endpoint", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+        })
+      );
+
+      await editFileMetadata({
+        filename: "a-file",
+        fileNickname: "SO COOL FILE",
+      });
+
+      expect(fetch).toHaveBeenCalledWith("/metadata", {
+        method: "POST",
+        body: JSON.stringify({
+          filename: "a-file",
+          fileNickname: "SO COOL FILE",
+        }),
+      });
     });
   });
 });

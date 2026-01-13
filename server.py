@@ -1,11 +1,12 @@
 from flask import Flask, Response, request, send_file, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import os
-import xattr
+from metadata import init_db, get_title, set_title, delete_metadata
 
 app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+init_db()
 
 @app.route('/')
 def index():
@@ -28,15 +29,11 @@ def list_files():
     file_info = []
 
     for file in files:
-        file_path = os.path.join(UPLOAD_FOLDER, file)
-        xattrs = []
-        try:
-            title = xattr.getxattr(file_path, 'hi.larry.title')
-            xattrs.append(title.decode(encoding='utf8'))
-        except Exception as e:
-            print(f"Failed to get title for {file}, exception: {e}")
-
-        file_info.append({file: xattrs})
+        title = get_title(file)
+        if title:
+            file_info.append({file: [title]})
+        else:
+            file_info.append({file: []})
 
     return jsonify(file_info)
 
@@ -52,6 +49,15 @@ def delete(filename):
         return 'File not found', 404
     except Exception as e:
         return 'Unknown error', 500
+    return 'Success', 200
+
+@app.route('/metadata', methods=['POST'])
+def update_metadata():
+    file_titles = request.get_json()
+    if not file_titles or not isinstance(file_titles, dict):
+        return 'Invalid request body', 400
+    for filename, title in file_titles.items():
+        set_title(filename, title)
     return 'Success', 200
 
 if __name__ == '__main__':
