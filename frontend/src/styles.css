@@ -1,3 +1,7 @@
+html {
+    font-size: 10px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,38 +14,39 @@ body {
 }
 
 h1 {
-    font-size: 72px;
+    font-size: 7.2rem;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 5rem;
     color: var(--color-dark);
-    text-shadow: 3px 3px 0px var(--color-brown-medium);
-    letter-spacing: 4px;
+    text-shadow: 3px 3px 0 var(--color-brown);
+    letter-spacing: 0.4rem;
 }
 
 h2 {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     color: var(--color-dark);
     font-weight: bold;
-    font-size: 24px;
+    font-size: 2.4rem;
     border-bottom: 3px solid var(--color-dark);
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
 }
 
+/* Layout */
 .file-container {
     display: flex;
-    gap: 40px;
-    max-width: 1200px;
+    gap: 4rem;
+    max-width: 120rem;
     margin: 0 auto;
 }
 
 .section {
     flex: 1;
     background: var(--color-beige-light);
-    padding: 30px;
-    border-radius: 0;
-    box-shadow: inset -2px -2px 0 var(--color-brown-medium),
-    inset 2px 2px 0 var(--color-cream-very-light),
-    4px 4px 0 var(--shadow-light);
+    padding: 3rem;
+    box-shadow:
+        inset -2px -2px 0 var(--color-brown),
+        inset 2px 2px 0 var(--color-cream),
+        4px 4px 0 var(--shadow-light);
     border: 3px solid var(--color-dark);
 }
 
@@ -50,112 +55,168 @@ h2 {
 }
 
 .upload-section {
-    max-height: 400px;
+    max-height: 40rem;
 }
 
+/* Base button styles */
 .button {
-    background: var(--color-brown-medium);
-    color: var(--color-beige-light);
-    padding: 12px 24px;
-    border: 3px solid var(--color-dark);
     cursor: pointer;
-    font-size: 16px;
-    font-family: 'Courier New', monospace;
+    font-family: inherit;
     font-weight: bold;
-    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
-    inset 1px 1px 0 var(--color-brown-light),
-    3px 3px 0 var(--shadow-medium);
+    border: 3px solid var(--color-dark);
     transition: all 0.1s;
 }
 
 .button:hover {
-    background: var(--color-brown-light);
     transform: translate(1px, 1px);
-    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
-    inset 1px 1px 0 var(--color-brown-light),
-    2px 2px 0 var(--shadow-medium);
 }
 
 .button:active {
     transform: translate(2px, 2px);
-    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
-    inset 1px 1px 0 var(--color-brown-light),
-    1px 1px 0 var(--shadow-medium);
+}
+
+/* Primary button (brown) */
+.button-primary {
+    background: var(--color-brown);
+    color: var(--color-beige-light);
+    padding: 1.2rem 2.4rem;
+    font-size: 1.6rem;
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-brown-light),
+        3px 3px 0 var(--shadow-medium);
+}
+
+.button-primary:hover {
+    background: var(--color-brown-light);
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-brown-light),
+        2px 2px 0 var(--shadow-medium);
+}
+
+.button-primary:active {
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-brown-light),
+        1px 1px 0 var(--shadow-medium);
+}
+
+/* Icon button base (square buttons) */
+.button-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+/* Danger button (red) */
+.button-danger {
+    background: var(--color-red-light);
+    color: var(--color-red);
+    border-color: var(--color-red);
+    box-shadow:
+        inset -1px -1px 0 var(--color-red-dark),
+        inset 1px 1px 0 var(--color-red-very-light),
+        3px 3px 0 var(--shadow-medium);
+}
+
+.button-danger:hover {
+    background: var(--color-red-very-light);
+    box-shadow:
+        inset -1px -1px 0 var(--color-red-dark),
+        inset 1px 1px 0 var(--color-red-very-light),
+        2px 2px 0 var(--shadow-medium);
+}
+
+.button-danger:active {
+    box-shadow:
+        inset -1px -1px 0 var(--color-red-dark),
+        inset 1px 1px 0 var(--color-red-very-light),
+        1px 1px 0 var(--shadow-medium);
+}
+
+/* Neutral button (beige) */
+.button-neutral {
+    background: var(--color-beige);
+    color: var(--color-dark);
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-beige-light),
+        3px 3px 0 var(--shadow-medium);
+}
+
+.button-neutral:hover {
+    background: var(--color-beige-light);
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-cream),
+        2px 2px 0 var(--shadow-medium);
+}
+
+.button-neutral:active {
+    box-shadow:
+        inset -1px -1px 0 var(--color-brown-dark),
+        inset 1px 1px 0 var(--color-cream),
+        1px 1px 0 var(--shadow-medium);
+}
+
+/* Button size variants */
+.button-small {
+    padding: 0.8rem 1.6rem;
+    font-size: 1.4rem;
 }
 
 .upload-button {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
-.download-button {
-    padding: 8px 16px;
-    font-size: 14px;
-}
-
+/* Button groups */
 .file-buttons-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
 }
 
-.delete-button {
-    background: var(--color-light-red);
-    color: var(--color-red);
-    border: 3px solid var(--color-red);
-    aspect-ratio: 1;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    box-shadow: inset -1px -1px 0 var(--color-dark-red),
-    inset 1px 1px 0 var(--color-very-light-red),
-    3px 3px 0 var(--shadow-medium);
-    transition: all 0.1s;
-}
-
-.delete-button:hover {
-    background: var(--color-very-light-red);
-    transform: translate(1px, 1px);
-    box-shadow: inset -1px -1px 0 var(--color-dark-red),
-    inset 1px 1px 0 var(--color-very-light-red),
-    2px 2px 0 var(--shadow-medium);
-}
-
+/* File input */
 input[type="file"] {
-    margin-bottom: 10px;
-    padding: 10px;
-    background: var(--color-cream-very-light);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--color-cream);
     border: 2px solid var(--color-dark);
-    font-family: 'Courier New', monospace;
-    width: calc(100% - 40px);
+    font-family: inherit;
+    width: calc(100% - 4rem);
 }
 
 input[type="file"]::file-selector-button {
-    background: var(--color-brown-medium);
+    background: var(--color-brown);
     color: var(--color-beige-light);
     border: 2px solid var(--color-dark);
-    padding: 8px 16px;
-    font-family: 'Courier New', monospace;
+    padding: 0.8rem 1.6rem;
+    font-family: inherit;
     font-weight: bold;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 1rem;
 }
 
 input[type="file"]::file-selector-button:hover {
     background: var(--color-brown-light);
 }
 
+/* File list */
 .file-item {
-    padding: 15px;
-    margin-bottom: 12px;
-    background: var(--color-cream-very-light);
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    background: var(--color-cream);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: 2px solid var(--color-dark);
     box-shadow: 2px 2px 0 var(--shadow-light);
-    gap: 10px;
+    gap: 1rem;
 }
 
 .file-item span {
@@ -164,7 +225,7 @@ input[type="file"]::file-selector-button:hover {
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    margin-right: 15px;
+    margin-right: 1.5rem;
 }
 
 .file-item span::after {
@@ -173,14 +234,15 @@ input[type="file"]::file-selector-button:hover {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 60px;
-    background: linear-gradient(to right, transparent, var(--color-cream-very-light));
+    width: 6rem;
+    background: linear-gradient(to right, transparent, var(--color-cream));
     pointer-events: none;
 }
 
+/* Status messages */
 .status {
-    margin-top: 15px;
-    padding: 12px;
+    margin-top: 1.5rem;
+    padding: 1.2rem;
     border: 2px solid var(--color-dark);
     display: none;
     font-weight: bold;
@@ -193,26 +255,27 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .status.error {
-    background: var(--color-light-red);
+    background: var(--color-red-light);
     color: var(--color-dark);
     display: block;
 }
 
+/* Progress bar */
 .progress-bar {
     display: none;
-    margin: 15px 0 0 0;
+    margin: 1.5rem 0 0 0;
 }
 
 .progress-container {
-    background: var(--color-cream-very-light);
+    background: var(--color-cream);
     border: 2px solid var(--color-dark);
     overflow: hidden;
-    height: 30px;
+    height: 3rem;
     position: relative;
 }
 
 .progress-fill {
-    background: var(--color-brown-medium);
+    background: var(--color-brown);
     height: 100%;
     width: 0%;
     transition: width 0.3s ease;
@@ -225,18 +288,21 @@ input[type="file"]::file-selector-button:hover {
     transform: translate(-50%, -50%);
     color: var(--color-dark);
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1.4rem;
 }
 
+/* CRT effect container */
 .scrollable-content {
-    background-color: var(--color-beige-medium);
-    min-height: calc(100vh - 80px);
-    max-height: calc(100vh - 50px);
-    padding: 30px 30px 30px 30px;
+    background-color: var(--color-beige);
+    min-height: calc(100vh - 8rem);
+    max-height: calc(100vh - 5rem);
+    padding: 3rem;
     position: relative;
     clip-path: inset(50% 0 50% 0);
     animation: crt-turn-on 1.5s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-    box-shadow: var(--shadow-inset) 0px 45px 60px -12px inset, var(--shadow-medium) 0px 18px 36px -18px inset;
+    box-shadow:
+        var(--shadow-inset) 0 4.5rem 6rem -1.2rem inset,
+        var(--shadow-medium) 0 1.8rem 3.6rem -1.8rem inset;
     overflow-y: scroll;
     scrollbar-color: var(--color-brown-light) transparent;
 }
@@ -259,24 +325,26 @@ input[type="file"]::file-selector-button:hover {
     }
 }
 
+/* Scanlines overlay */
 .scanlines {
     position: fixed;
     top: -100%;
     left: 0;
     width: 100%;
-    height: 400%; /* TODO: Need JS here I think to make this not be jank */
+    height: 400%;
     pointer-events: none;
     background: repeating-linear-gradient(
-            0deg,
-            var(--shadow-scanline),
-            var(--shadow-scanline) 2px,
-            var(--color-transparent) 2px,
-            var(--color-transparent) 4px
+        0deg,
+        var(--shadow-scanline),
+        var(--shadow-scanline) 2px,
+        var(--color-transparent) 2px,
+        var(--color-transparent) 4px
     );
     z-index: 9998;
     animation: scanline-move 0.5s linear infinite;
 }
 
+/* TV frame */
 .tv-frame {
     position: fixed;
     width: 100vw;
@@ -305,17 +373,17 @@ input[type="file"]::file-selector-button:hover {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     h1 {
-        font-size: 42px;
-        margin-bottom: 30px;
+        font-size: 4.2rem;
+        margin-bottom: 3rem;
     }
 
     .scrollable-content {
-        padding: 25px;
+        padding: 2.5rem;
     }
 
     .file-container {
         flex-direction: column;
-        gap: 20px;
+        gap: 2rem;
     }
 
     .upload-section {
@@ -328,17 +396,17 @@ input[type="file"]::file-selector-button:hover {
     }
 
     .section {
-        padding: 20px;
+        padding: 2rem;
     }
 
     h2 {
-        font-size: 20px;
+        font-size: 2rem;
     }
 
     .file-item {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 1rem;
     }
 
     .file-item span {
@@ -346,14 +414,14 @@ input[type="file"]::file-selector-button:hover {
         width: 100%;
     }
 
-    .download-button {
+    .button-small {
         flex: 1;
     }
 
     .file-buttons-group {
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        gap: 1rem;
         width: 100%;
     }
 

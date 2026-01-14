@@ -1,17 +1,17 @@
 :root {
     /* Main colors */
     --color-dark: #2a2a2a;
-    --color-brown-medium: #8b7355;
-    --color-beige-light: #f4e4c1;
-    --color-cream-very-light: #fff5e1;
-    --color-brown-dark: #5a4a3a;
     --color-brown-light: #ab9375;
-    --color-beige-medium: #d4c5a9;
+    --color-brown: #8b7355;
+    --color-brown-dark: #5a4a3a;
+    --color-cream: #fff5e1;
+    --color-beige-light: #f4e4c1;
+    --color-beige: #d4c5a9;
     --color-green: #90ee90;
+    --color-red-very-light: #fe8181;
+    --color-red-light: #ff6b6b;
     --color-red: #e02b2b;
-    --color-light-red: #ff6b6b;
-    --color-very-light-red: #fe8181;
-    --color-dark-red: #ae2222;
+    --color-red-dark: #ae2222;
 
     /* Shadow colors */
     --shadow-light: rgba(0, 0, 0, 0.2);
