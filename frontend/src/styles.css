@@ -39,10 +39,9 @@ h2 {
     background: var(--color-beige-light);
     padding: 30px;
     border-radius: 0;
-    box-shadow: 
-        inset -2px -2px 0 var(--color-brown-medium),
-        inset 2px 2px 0 var(--color-cream-very-light),
-        4px 4px 0 var(--shadow-light);
+    box-shadow: inset -2px -2px 0 var(--color-brown-medium),
+    inset 2px 2px 0 var(--color-cream-very-light),
+    4px 4px 0 var(--shadow-light);
     border: 3px solid var(--color-dark);
 }
 
@@ -63,28 +62,25 @@ h2 {
     font-size: 16px;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    box-shadow: 
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        3px 3px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    3px 3px 0 var(--shadow-medium);
     transition: all 0.1s;
 }
 
 .button:hover {
     background: var(--color-brown-light);
     transform: translate(1px, 1px);
-    box-shadow: 
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        2px 2px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    2px 2px 0 var(--shadow-medium);
 }
 
 .button:active {
     transform: translate(2px, 2px);
-    box-shadow: 
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        1px 1px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    1px 1px 0 var(--shadow-medium);
 }
 
 .upload-button {
@@ -112,20 +108,18 @@ h2 {
     font-size: 14px;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    box-shadow: 
-        inset -1px -1px 0 var(--color-dark-red),
-        inset 1px 1px 0 var(--color-very-light-red),
-        3px 3px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-dark-red),
+    inset 1px 1px 0 var(--color-very-light-red),
+    3px 3px 0 var(--shadow-medium);
     transition: all 0.1s;
 }
 
 .delete-button:hover {
     background: var(--color-very-light-red);
     transform: translate(1px, 1px);
-    box-shadow: 
-        inset -1px -1px 0 var(--color-dark-red),
-        inset 1px 1px 0 var(--color-very-light-red),
-        2px 2px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-dark-red),
+    inset 1px 1px 0 var(--color-very-light-red),
+    2px 2px 0 var(--shadow-medium);
 }
 
 input[type="file"] {
@@ -273,11 +267,11 @@ input[type="file"]::file-selector-button:hover {
     height: 400%; /* TODO: Need JS here I think to make this not be jank */
     pointer-events: none;
     background: repeating-linear-gradient(
-        0deg,
-        var(--shadow-scanline),
-        var(--shadow-scanline) 2px,
-        var(--color-transparent) 2px,
-        var(--color-transparent) 4px
+            0deg,
+            var(--shadow-scanline),
+            var(--shadow-scanline) 2px,
+            var(--color-transparent) 2px,
+            var(--color-transparent) 4px
     );
     z-index: 9998;
     animation: scanline-move 0.5s linear infinite;

@@ -90,7 +90,9 @@ describe('App', () => {
       expect(screen.getByText(/test\.txt/)).toBeInTheDocument();
     });
 
-    const downloadButton = screen.getByRole('button', { name: /download/i });
+    const downloadButton = screen.getByRole('button', {
+      name: /download/i,
+    });
     await user.click(downloadButton);
 
     expect(api.downloadFile).toHaveBeenCalledWith('test.txt');

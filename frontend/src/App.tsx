@@ -62,7 +62,10 @@ export default function App() {
               onUploadComplete={handleUploadComplete}
               externalStatus={
                 deleteStatus !== 'idle'
-                  ? { type: deleteStatus, message: deleteMessage }
+                  ? {
+                      type: deleteStatus,
+                      message: deleteMessage,
+                    }
                   : null
               }
               onClearExternalStatus={handleClearDeleteStatus}

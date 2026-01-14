@@ -12,13 +12,13 @@
     --color-light-red: #ff6b6b;
     --color-very-light-red: #fe8181;
     --color-dark-red: #ae2222;
-    
+
     /* Shadow colors */
     --shadow-light: rgba(0, 0, 0, 0.2);
     --shadow-medium: rgba(0, 0, 0, 0.3);
     --shadow-scanline: rgba(0, 0, 0, 0.06);
     --shadow-inset: rgba(50, 50, 93, 0.25);
-    
+
     /* Transparent */
     --color-transparent: transparent;
 }
