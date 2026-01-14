@@ -9,6 +9,7 @@ html {
 
 body {
     font-family: 'Courier New', monospace;
+    font-size: 1.6rem;
     background: var(--color-dark);
     color: var(--color-dark);
 }
@@ -43,10 +44,9 @@ h2 {
     flex: 1;
     background: var(--color-beige-light);
     padding: 3rem;
-    box-shadow:
-        inset -2px -2px 0 var(--color-brown),
-        inset 2px 2px 0 var(--color-cream),
-        4px 4px 0 var(--shadow-light);
+    box-shadow: inset -2px -2px 0 var(--color-brown),
+    inset 2px 2px 0 var(--color-cream),
+    4px 4px 0 var(--shadow-light);
     border: 3px solid var(--color-dark);
 }
 
@@ -81,36 +81,33 @@ h2 {
     color: var(--color-beige-light);
     padding: 1.2rem 2.4rem;
     font-size: 1.6rem;
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        3px 3px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    3px 3px 0 var(--shadow-medium);
 }
 
 .button-primary:hover {
     background: var(--color-brown-light);
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        2px 2px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    2px 2px 0 var(--shadow-medium);
 }
 
 .button-primary:active {
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-brown-light),
-        1px 1px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-brown-light),
+    1px 1px 0 var(--shadow-medium);
 }
 
 /* Icon button base (square buttons) */
 .button-icon {
-    width: 3.4rem;
-    height: 3.4rem;
+    width: 4rem;
+    height: 4rem;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 /* Danger button (red) */
@@ -118,56 +115,53 @@ h2 {
     background: var(--color-red-light);
     color: var(--color-red);
     border-color: var(--color-red);
-    box-shadow:
-        inset -1px -1px 0 var(--color-red-dark),
-        inset 1px 1px 0 var(--color-red-very-light),
-        3px 3px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-red-dark),
+    inset 1px 1px 0 var(--color-red-very-light),
+    3px 3px 0 var(--shadow-medium);
 }
 
 .button-danger:hover {
     background: var(--color-red-very-light);
-    box-shadow:
-        inset -1px -1px 0 var(--color-red-dark),
-        inset 1px 1px 0 var(--color-red-very-light),
-        2px 2px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-red-dark),
+    inset 1px 1px 0 var(--color-red-very-light),
+    2px 2px 0 var(--shadow-medium);
 }
 
 .button-danger:active {
-    box-shadow:
-        inset -1px -1px 0 var(--color-red-dark),
-        inset 1px 1px 0 var(--color-red-very-light),
-        1px 1px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-red-dark),
+    inset 1px 1px 0 var(--color-red-very-light),
+    1px 1px 0 var(--shadow-medium);
 }
 
 /* Neutral button (beige) */
 .button-neutral {
     background: var(--color-beige);
     color: var(--color-dark);
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-beige-light),
-        3px 3px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-beige-light),
+    3px 3px 0 var(--shadow-medium);
 }
 
 .button-neutral:hover {
     background: var(--color-beige-light);
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-cream),
-        2px 2px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-cream),
+    2px 2px 0 var(--shadow-medium);
 }
 
 .button-neutral:active {
-    box-shadow:
-        inset -1px -1px 0 var(--color-brown-dark),
-        inset 1px 1px 0 var(--color-cream),
-        1px 1px 0 var(--shadow-medium);
+    box-shadow: inset -1px -1px 0 var(--color-brown-dark),
+    inset 1px 1px 0 var(--color-cream),
+    1px 1px 0 var(--shadow-medium);
 }
 
 /* Button size variants */
 .button-small {
-    padding: 0.8rem 1.6rem;
+    height: 4rem;
+    padding: 0 1.6rem;
     font-size: 1.4rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 .upload-button {
@@ -300,9 +294,8 @@ input[type="file"]::file-selector-button:hover {
     position: relative;
     clip-path: inset(50% 0 50% 0);
     animation: crt-turn-on 1.5s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-    box-shadow:
-        var(--shadow-inset) 0 4.5rem 6rem -1.2rem inset,
-        var(--shadow-medium) 0 1.8rem 3.6rem -1.8rem inset;
+    box-shadow: var(--shadow-inset) 0 4.5rem 6rem -1.2rem inset,
+    var(--shadow-medium) 0 1.8rem 3.6rem -1.8rem inset;
     overflow-y: scroll;
     scrollbar-color: var(--color-brown-light) transparent;
 }
@@ -334,11 +327,11 @@ input[type="file"]::file-selector-button:hover {
     height: 400%;
     pointer-events: none;
     background: repeating-linear-gradient(
-        0deg,
-        var(--shadow-scanline),
-        var(--shadow-scanline) 2px,
-        var(--color-transparent) 2px,
-        var(--color-transparent) 4px
+            0deg,
+            var(--shadow-scanline),
+            var(--shadow-scanline) 2px,
+            var(--color-transparent) 2px,
+            var(--color-transparent) 4px
     );
     z-index: 9998;
     animation: scanline-move 0.5s linear infinite;
