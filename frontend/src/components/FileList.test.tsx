@@ -100,4 +100,17 @@ describe('FileList', () => {
     expect(downloadButtons).toHaveLength(2);
     expect(deleteButtons).toHaveLength(2);
   });
+
+  it('renders a "..." button for each file', () => {
+    const files: FileInfo[] = [
+      { 'file1.txt': ['Title 1'] },
+      { 'file2.txt': [] },
+    ];
+
+    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+
+    const moreButtons = screen.getAllByRole('button', { name: '...' });
+
+    expect(moreButtons).toHaveLength(2);
+  });
 });

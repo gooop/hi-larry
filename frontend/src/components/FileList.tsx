@@ -33,13 +33,19 @@ export default function FileList({ files, onDownload, onDelete }: FileListProps)
             <span>► {displayName}</span>
             <div className="file-buttons-group">
               <button
-                className="button download-button"
+                className="button button-primary button-small"
                 onClick={() => onDownload(filename)}
               >
                 ⬇ DOWNLOAD
               </button>
               <button
-                className="delete-button"
+                className="button button-icon button-neutral"
+                aria-label="..."
+              >
+                ...
+              </button>
+              <button
+                className="button button-icon button-danger"
                 onClick={() => onDelete(filename)}
                 aria-label="delete"
               >
