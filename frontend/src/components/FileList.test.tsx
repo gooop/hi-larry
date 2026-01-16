@@ -18,7 +18,9 @@ describe('FileList', () => {
       { 'image.png': [] },
     ];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
     expect(screen.getByText(/file1\.txt/)).toBeInTheDocument();
     expect(screen.getByText(/file2\.pdf/)).toBeInTheDocument();
@@ -30,28 +32,30 @@ describe('FileList', () => {
       { 'boring-filename.txt': ['My Awesome Document'] },
     ];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
     expect(screen.getByText(/My Awesome Document/)).toBeInTheDocument();
     expect(screen.queryByText(/boring-filename\.txt/)).not.toBeInTheDocument();
   });
 
   it('falls back to filename when title is empty string', () => {
-    const files: FileInfo[] = [
-      { 'actual-file.txt': [''] },
-    ];
+    const files: FileInfo[] = [{ 'actual-file.txt': [''] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
     expect(screen.getByText(/actual-file\.txt/)).toBeInTheDocument();
   });
 
   it('falls back to filename when title is whitespace only', () => {
-    const files: FileInfo[] = [
-      { 'actual-file.txt': ['   '] },
-    ];
+    const files: FileInfo[] = [{ 'actual-file.txt': ['   '] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
     expect(screen.getByText(/actual-file\.txt/)).toBeInTheDocument();
   });
@@ -59,11 +63,11 @@ describe('FileList', () => {
   it('calls onDownload with actual filename even when title is displayed', async () => {
     const user = userEvent.setup();
     const onDownload = vi.fn();
-    const files: FileInfo[] = [
-      { 'actual-file.txt': ['Display Title'] },
-    ];
+    const files: FileInfo[] = [{ 'actual-file.txt': ['Display Title'] }];
 
-    render(<FileList files={files} onDownload={onDownload} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={onDownload} onDelete={() => {}} />
+    );
 
     const downloadButton = screen.getByRole('button', { name: /download/i });
     await user.click(downloadButton);
@@ -71,17 +75,84 @@ describe('FileList', () => {
     expect(onDownload).toHaveBeenCalledWith('actual-file.txt');
   });
 
-  it('calls onDelete with actual filename even when title is displayed', async () => {
+  it('opens a modal when the delete button is pressed', async () => {
     const user = userEvent.setup();
-    const onDelete = vi.fn();
-    const files: FileInfo[] = [
-      { 'actual-file.txt': ['Display Title'] },
-    ];
+    const files: FileInfo[] = [{ 'actual-file.txt': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={onDelete} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
     await user.click(deleteButton);
+
+    expect(
+      screen.getByRole('button', { name: /confirm/i })
+    ).toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+  });
+
+  it('only calls onDelete when the modal is confirmed', async () => {
+    const user = userEvent.setup();
+    const onDelete = vi.fn();
+    const files: FileInfo[] = [{ 'actual-file.txt': [] }];
+
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={onDelete} />
+    );
+
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
+    await user.click(deleteButton);
+
+    let cancelButton = screen.getByRole('button', { name: /cancel/i });
+    expect(cancelButton).toBeInTheDocument();
+    await user.click(cancelButton);
+    expect(onDelete).not.toHaveBeenCalled();
+
+    await user.click(deleteButton);
+    let confirmButton = screen.getByRole('button', { name: /confirm/i });
+    expect(confirmButton).toBeInTheDocument();
+    await user.click(confirmButton);
+    expect(onDelete).toHaveBeenCalled();
+  });
+
+  it('closes when the modal is cancelled', async () => {
+    const user = userEvent.setup();
+    const onDelete = vi.fn();
+    const files: FileInfo[] = [{ 'actual-file.txt': [] }];
+
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={onDelete} />
+    );
+
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
+    await user.click(deleteButton);
+
+    let cancelButton = screen.getByRole('button', { name: /cancel/i });
+    expect(cancelButton).toBeInTheDocument();
+    await user.click(cancelButton);
+    expect(onDelete).not.toHaveBeenCalled();
+
+    expect(await screen.queryByRole('button', { name: /confirm/i })).toBeNull();
+    expect(await screen.queryByRole('button', { name: /cancel/i })).toBeNull();
+  });
+
+  it('calls onDelete with actual filename even when title is displayed', async () => {
+    const user = userEvent.setup();
+    const onDelete = vi.fn();
+    const files: FileInfo[] = [{ 'actual-file.txt': ['Display Title'] }];
+
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={onDelete} />
+    );
+
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
+    await user.click(deleteButton);
+    let confirmButton = screen.getByRole('button', { name: /confirm/i });
+    expect(confirmButton).toBeInTheDocument();
+    await user.click(confirmButton);
+    expect(onDelete).toHaveBeenCalled();
 
     expect(onDelete).toHaveBeenCalledWith('actual-file.txt');
   });
@@ -92,9 +163,13 @@ describe('FileList', () => {
       { 'file2.txt': [] },
     ];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} />);
+    render(
+      <FileList files={files} onDownload={() => {}} onDelete={() => {}} />
+    );
 
-    const downloadButtons = screen.getAllByRole('button', { name: /download/i });
+    const downloadButtons = screen.getAllByRole('button', {
+      name: /download/i,
+    });
     const deleteButtons = screen.getAllByRole('button', { name: /delete/i });
 
     expect(downloadButtons).toHaveLength(2);
@@ -107,7 +182,14 @@ describe('FileList', () => {
       { 'file2.txt': [] },
     ];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={() => {}} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
 
     const moreButtons = screen.getAllByRole('button', { name: /edit title/i });
 
@@ -118,7 +200,14 @@ describe('FileList', () => {
     const user = userEvent.setup();
     const files: FileInfo[] = [{ 'test-file.txt': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={() => {}} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
 
     const moreButton = screen.getByRole('button', { name: /edit title/i });
     await user.click(moreButton);
@@ -131,7 +220,14 @@ describe('FileList', () => {
     const user = userEvent.setup();
     const files: FileInfo[] = [{ 'important-doc.pdf': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={() => {}} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
 
     const moreButton = screen.getByRole('button', { name: /edit title/i });
     await user.click(moreButton);
@@ -144,7 +240,14 @@ describe('FileList', () => {
     const user = userEvent.setup();
     const files: FileInfo[] = [{ 'test-file.txt': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={() => {}} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
 
     const moreButton = screen.getByRole('button', { name: /edit title/i });
     await user.click(moreButton);
@@ -160,7 +263,14 @@ describe('FileList', () => {
     const onEditMetadata = vi.fn();
     const files: FileInfo[] = [{ 'my-document.txt': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={onEditMetadata} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={onEditMetadata}
+      />
+    );
 
     const moreButton = screen.getByRole('button', { name: /edit title/i });
     await user.click(moreButton);
@@ -171,14 +281,24 @@ describe('FileList', () => {
     const confirmButton = screen.getByRole('button', { name: /confirm/i });
     await user.click(confirmButton);
 
-    expect(onEditMetadata).toHaveBeenCalledWith('my-document.txt', 'My New Title');
+    expect(onEditMetadata).toHaveBeenCalledWith(
+      'my-document.txt',
+      'My New Title'
+    );
   });
 
   it('closes modal after successful submission', async () => {
     const user = userEvent.setup();
     const files: FileInfo[] = [{ 'test-file.txt': [] }];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={() => {}} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
 
     const moreButton = screen.getByRole('button', { name: /edit title/i });
     await user.click(moreButton);
@@ -201,7 +321,14 @@ describe('FileList', () => {
       { 'third-file.txt': [] },
     ];
 
-    render(<FileList files={files} onDownload={() => {}} onDelete={() => {}} onEditMetadata={onEditMetadata} />);
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={onEditMetadata}
+      />
+    );
 
     const moreButtons = screen.getAllByRole('button', { name: /edit title/i });
     await user.click(moreButtons[1]); // Click the second file's button
@@ -215,6 +342,9 @@ describe('FileList', () => {
     const confirmButton = screen.getByRole('button', { name: /confirm/i });
     await user.click(confirmButton);
 
-    expect(onEditMetadata).toHaveBeenCalledWith('second-file.txt', 'Second File Title');
+    expect(onEditMetadata).toHaveBeenCalledWith(
+      'second-file.txt',
+      'Second File Title'
+    );
   });
 });

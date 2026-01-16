@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FileInfo } from '../api';
 import TitleModal from './TitleModal';
+import DeleteModal from './DeleteModal.tsx';
 
 interface FileListProps {
   files: FileInfo[];
@@ -9,7 +10,10 @@ interface FileListProps {
   onEditMetadata?: (filename: string, title: string) => void;
 }
 
-function extractFileDetails(fileInfo: FileInfo): { filename: string; displayName: string } {
+function extractFileDetails(fileInfo: FileInfo): {
+  filename: string;
+  displayName: string;
+} {
   const filename = Object.keys(fileInfo)[0];
   const metadataTitles = fileInfo[filename];
   const customTitle = metadataTitles[0]?.trim();
@@ -17,21 +21,44 @@ function extractFileDetails(fileInfo: FileInfo): { filename: string; displayName
   return { filename, displayName };
 }
 
-export default function FileList({ files, onDownload, onDelete, onEditMetadata }: FileListProps) {
-  const [fileSelectedForTitleEdit, setFileSelectedForTitleEdit] = useState<string | null>(null);
-  const isModalOpen = fileSelectedForTitleEdit !== null;
-
+export default function FileList({
+  files,
+  onDownload,
+  onDelete,
+  onEditMetadata,
+}: FileListProps) {
+  const [fileSelectedForEdit, setFileSelectedForEdit] = useState<string | null>(
+    null
+  );
+  const [fileSelectedForDelete, setFileSelectedForDelete] = useState<
+    string | null
+  >(null);
+  const isTitleModalOpen = fileSelectedForEdit !== null;
   function openTitleModal(filename: string) {
-    setFileSelectedForTitleEdit(filename);
+    setFileSelectedForEdit(filename);
   }
 
   function closeTitleModal() {
-    setFileSelectedForTitleEdit(null);
+    setFileSelectedForEdit(null);
   }
 
   function handleTitleSubmit(filename: string, title: string) {
     onEditMetadata?.(filename, title);
     closeTitleModal();
+  }
+
+  const isDeleteModalOpen = fileSelectedForDelete !== null;
+  function openDeleteModal(filename: string) {
+    setFileSelectedForDelete(filename);
+  }
+
+  function closeDeleteModal() {
+    setFileSelectedForDelete(null);
+  }
+
+  function handleDeleteSubmit(filename: string) {
+    onDelete(filename);
+    closeDeleteModal();
   }
 
   if (files.length === 0) {
@@ -66,7 +93,7 @@ export default function FileList({ files, onDownload, onDelete, onEditMetadata }
               </button>
               <button
                 className="button button-icon button-danger"
-                onClick={() => onDelete(filename)}
+                onClick={() => openDeleteModal(filename)}
                 aria-label="Delete file"
               >
                 ✖
@@ -76,10 +103,16 @@ export default function FileList({ files, onDownload, onDelete, onEditMetadata }
         );
       })}
       <TitleModal
-        filename={fileSelectedForTitleEdit || ''}
-        isOpen={isModalOpen}
+        filename={fileSelectedForEdit || ''}
+        isOpen={isTitleModalOpen}
         onClose={closeTitleModal}
         onSubmit={handleTitleSubmit}
+      />
+      <DeleteModal
+        filename={fileSelectedForDelete || ''}
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteSubmit}
       />
     </div>
   );
