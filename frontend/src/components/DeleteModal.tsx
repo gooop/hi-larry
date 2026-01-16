@@ -53,6 +53,7 @@ export default function DeleteModal({
       onClick={closeOnBackdropClick}
     >
       <div className="modal-content">
+        <h3 className="modal-title">Delete File</h3>
         <p className="modal-filename">{filename}</p>
         <form onSubmit={handleSubmit}>
           <div className="modal-buttons">

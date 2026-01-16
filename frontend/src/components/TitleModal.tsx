@@ -59,6 +59,7 @@ export default function TitleModal({
       onClick={closeOnBackdropClick}
     >
       <div className="modal-content">
+        <h3 className="modal-title">Edit File Metadata</h3>
         <p className="modal-filename">{filename}</p>
         <form onSubmit={handleSubmit}>
           <input

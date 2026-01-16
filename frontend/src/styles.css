@@ -387,6 +387,15 @@ input[type="file"]::file-selector-button:hover {
     width: fit-content;
 }
 
+.modal-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-dark);
+    border-bottom: 0.3rem solid var(--color-dark);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
 .modal-filename {
     margin-bottom: 1rem;
     font-weight: bold;

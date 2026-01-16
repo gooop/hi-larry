@@ -25,6 +25,7 @@ describe('DeleteModal', () => {
     render(<DeleteModal {...defaultProps} />);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Delete File')).toBeInTheDocument();
   });
 
   it('displays the filename being deleted', () => {

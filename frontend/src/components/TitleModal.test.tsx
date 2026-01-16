@@ -25,6 +25,7 @@ describe('TitleModal', () => {
     render(<TitleModal {...defaultProps} />);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Edit File Metadata')).toBeInTheDocument();
   });
 
   it('renders an input field with Title placeholder', () => {
