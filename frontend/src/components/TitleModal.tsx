@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface TitleModalProps {
   filename: string;
@@ -50,7 +51,7 @@ export default function TitleModal({
     }
   }
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       className="modal-backdrop"
@@ -85,6 +86,7 @@ export default function TitleModal({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

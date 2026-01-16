@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface DeleteModalProps {
   filename: string;
@@ -44,7 +45,7 @@ export default function DeleteModal({
     }
   }
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       className="modal-backdrop"
@@ -68,6 +69,7 @@ export default function DeleteModal({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
