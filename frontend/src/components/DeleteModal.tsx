@@ -62,10 +62,7 @@ export default function DeleteModal({
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="button button-danger modal-button"
-            >
+            <button type="submit" className="button button-danger modal-button">
               Confirm
             </button>
           </div>

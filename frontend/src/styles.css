@@ -271,7 +271,7 @@ input[type="file"]::file-selector-button:hover {
 .progress-fill {
     background: var(--color-brown);
     height: 100%;
-    width: 0%;
+    width: 0;
     transition: width 0.3s ease;
 }
 
@@ -383,11 +383,15 @@ input[type="file"]::file-selector-button:hover {
     border: 3px solid var(--color-dark);
     box-shadow: 4px 4px 0 var(--shadow-medium);
     min-width: 300px;
+    max-width: 80vw;
+    width: fit-content;
 }
 
 .modal-filename {
     margin-bottom: 1rem;
     font-weight: bold;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .modal-input {

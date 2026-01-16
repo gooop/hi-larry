@@ -72,6 +72,9 @@ describe('App', () => {
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
     await user.click(deleteButton);
+    let confirmButton = screen.getByRole('button', { name: /confirm/i });
+    expect(confirmButton).toBeInTheDocument();
+    await user.click(confirmButton);
 
     await waitFor(() => {
       expect(api.deleteFile).toHaveBeenCalledWith('test.txt');
@@ -136,7 +139,9 @@ describe('App', () => {
   it('displays error message when metadata edit fails', async () => {
     const user = userEvent.setup();
     vi.mocked(api.listFiles).mockResolvedValue([{ 'document.txt': [] }]);
-    vi.mocked(api.editFileMetadata).mockRejectedValue(new Error('Network error'));
+    vi.mocked(api.editFileMetadata).mockRejectedValue(
+      new Error('Network error')
+    );
 
     render(<App />);
 

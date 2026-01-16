@@ -36,7 +36,9 @@ describe('TitleModal', () => {
   it('renders confirm and cancel buttons', () => {
     render(<TitleModal {...defaultProps} />);
 
-    expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /confirm/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
   });
 

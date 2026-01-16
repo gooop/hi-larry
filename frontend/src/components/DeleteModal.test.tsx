@@ -36,7 +36,9 @@ describe('DeleteModal', () => {
   it('renders confirm and cancel buttons', () => {
     render(<DeleteModal {...defaultProps} />);
 
-    expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /confirm/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
   });
 
