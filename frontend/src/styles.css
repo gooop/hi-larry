@@ -482,3 +482,28 @@ input[type="file"]::file-selector-button:hover {
         border: 20px solid var(--color-dark);
     }
 }
+
+/* GitHub Link Footer */
+.github-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+}
+
+.github-link {
+    display: inline-block;
+    padding: 0.5rem;
+    opacity: 0.35;
+    transition: opacity 0.2s ease;
+}
+
+.github-link:hover {
+    opacity: 0.65;
+}
+
+.github-link img {
+    display: block;
+    width: 3rem;
+    height: auto;
+}

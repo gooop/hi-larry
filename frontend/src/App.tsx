@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { listFiles, deleteFile, downloadFile, editFileMetadata, type FileInfo } from './api';
 import FileList from './components/FileList';
 import FileUploader from './components/FileUploader';
+import GitHubLink from './components/GitHubLink';
 import './colors.css';
 import './styles.css';
 
@@ -94,6 +95,9 @@ export default function App() {
             </div>
           </div>
         </div>
+        <footer className="github-footer">
+          <GitHubLink />
+        </footer>
       </div>
     </>
   );
