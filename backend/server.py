@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 from metadata import init_db, get_title, set_title, delete_metadata
 
-app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='')
 UPLOAD_FOLDER = os.path.join('..', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 init_db()
