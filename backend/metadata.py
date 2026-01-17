@@ -15,11 +15,16 @@ def init_db() -> None:
     """Create the files table if it doesn't exist."""
     with _get_connection() as conn:
         conn.execute("""
-            CREATE TABLE IF NOT EXISTS files (
-                filename TEXT PRIMARY KEY,
-                title TEXT
-            )
-        """)
+                     CREATE TABLE IF NOT EXISTS files
+                     (
+                         filename
+                         TEXT
+                         PRIMARY
+                         KEY,
+                         title
+                         TEXT
+                     )
+                     """)
 
 
 def get_title(filename: str) -> str | None:
@@ -38,8 +43,9 @@ def set_title(filename: str, title: str) -> None:
     with _get_connection() as conn:
         conn.execute(
             """
-            INSERT INTO files (filename, title) VALUES (?, ?)
-            ON CONFLICT(filename) DO UPDATE SET title = excluded.title
+            INSERT INTO files (filename, title)
+            VALUES (?, ?) ON CONFLICT(filename) DO
+            UPDATE SET title = excluded.title
             """,
             (filename, title)
         )
