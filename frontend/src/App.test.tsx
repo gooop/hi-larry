@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import App from './App';
 import * as api from './api';
 
-// Mock the API module
 vi.mock('./api', () => ({
   listFiles: vi.fn(),
   deleteFile: vi.fn(),
@@ -33,15 +32,15 @@ describe('App', () => {
 
   it('loads and displays files on mount', async () => {
     vi.mocked(api.listFiles).mockResolvedValue([
-      { 'file1.txt': [] },
-      { 'file2.pdf': [] },
+      { filename: 'file1.txt' },
+      { filename: 'file2.pdf', title: 'title' },
     ]);
 
     render(<App />);
 
     await waitFor(() => {
       expect(screen.getByText(/file1\.txt/)).toBeInTheDocument();
-      expect(screen.getByText(/file2\.pdf/)).toBeInTheDocument();
+      expect(screen.getByText(/title/)).toBeInTheDocument();
     });
 
     expect(api.listFiles).toHaveBeenCalled();
@@ -60,7 +59,7 @@ describe('App', () => {
   it('deletes file and refreshes list', async () => {
     const user = userEvent.setup();
     vi.mocked(api.listFiles)
-      .mockResolvedValueOnce([{ 'test.txt': [] }])
+      .mockResolvedValueOnce([{ filename: 'test.txt' }])
       .mockResolvedValueOnce([]);
     vi.mocked(api.deleteFile).mockResolvedValue(undefined);
 
@@ -86,7 +85,7 @@ describe('App', () => {
 
   it('downloads file when download button clicked', async () => {
     const user = userEvent.setup();
-    vi.mocked(api.listFiles).mockResolvedValue([{ 'test.txt': [] }]);
+    vi.mocked(api.listFiles).mockResolvedValue([{ filename: 'test.txt' }]);
 
     render(<App />);
 
@@ -103,8 +102,7 @@ describe('App', () => {
   });
 
   it('edits file metadata when modal is submitted', async () => {
-    const user = userEvent.setup();
-    vi.mocked(api.listFiles).mockResolvedValue([{ 'document.txt': [] }]);
+    vi.mocked(api.listFiles).mockResolvedValue([{ filename: 'document.txt' }]);
     vi.mocked(api.editFileMetadata).mockResolvedValue(undefined);
 
     render(<App />);
@@ -113,32 +111,65 @@ describe('App', () => {
       expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
     });
 
-    // Click the "..." button to open modal
-    const moreButton = screen.getByRole('button', { name: /edit title/i });
-    await user.click(moreButton);
+    const expandableSection = screen.getByText(/document\.txt/i);
+    await userEvent.click(expandableSection);
 
-    // Type a title
-    const input = screen.getByPlaceholderText('Title');
-    await user.type(input, 'My Document Title');
+    const input = screen.getByLabelText('Title');
+    await userEvent.type(input, 'My Document Title');
 
-    // Submit the form
-    const confirmButton = screen.getByRole('button', { name: /confirm/i });
-    await user.click(confirmButton);
+    const confirmButton = screen.getByRole('button', { name: /save/i });
+    await userEvent.click(confirmButton);
 
     await waitFor(() => {
-      expect(api.editFileMetadata).toHaveBeenCalledWith(
-        'document.txt',
-        'My Document Title'
-      );
+      expect(api.editFileMetadata).toHaveBeenCalledWith({
+        filename: 'document.txt',
+        title: 'My Document Title',
+      });
     });
 
-    // List should be refreshed after metadata update
+    expect(api.listFiles).toHaveBeenCalledTimes(2);
+  });
+
+  it('edits file metadata when modal is submitted', async () => {
+    vi.mocked(api.listFiles).mockResolvedValue([{ filename: 'document.txt' }]);
+    vi.mocked(api.editFileMetadata).mockResolvedValue(undefined);
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
+    });
+
+    const expandableSection = screen.getByText(/document\.txt/i);
+    await userEvent.click(expandableSection);
+
+    const titleInput = screen.getByLabelText('Title');
+    await userEvent.type(titleInput, 'Cool Title!');
+
+    const authorInput = screen.getByLabelText('Author');
+    await userEvent.type(authorInput, 'Augthor');
+
+    const typeInput = screen.getByLabelText('Type');
+    await userEvent.type(typeInput, 'E-Book');
+
+    const confirmButton = screen.getByRole('button', { name: /save/i });
+    await userEvent.click(confirmButton);
+
+    await waitFor(() => {
+      expect(api.editFileMetadata).toHaveBeenCalledWith({
+        filename: 'document.txt',
+        title: 'Cool Title!',
+        author: 'Augthor',
+        type: 'E-Book',
+      });
+    });
+
     expect(api.listFiles).toHaveBeenCalledTimes(2);
   });
 
   it('displays error message when metadata edit fails', async () => {
     const user = userEvent.setup();
-    vi.mocked(api.listFiles).mockResolvedValue([{ 'document.txt': [] }]);
+    vi.mocked(api.listFiles).mockResolvedValue([{ filename: 'document.txt' }]);
     vi.mocked(api.editFileMetadata).mockRejectedValue(
       new Error('Network error')
     );
@@ -149,16 +180,13 @@ describe('App', () => {
       expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
     });
 
-    // Click the "..." button to open modal
-    const moreButton = screen.getByRole('button', { name: /edit title/i });
-    await user.click(moreButton);
+    const expandableSection = screen.getByText(/document\.txt/i);
+    await userEvent.click(expandableSection);
 
-    // Type a title
-    const input = screen.getByPlaceholderText('Title');
+    const input = screen.getByLabelText('Title');
     await user.type(input, 'My Title');
 
-    // Submit the form
-    const confirmButton = screen.getByRole('button', { name: /confirm/i });
+    const confirmButton = screen.getByRole('button', { name: /save/i });
     await user.click(confirmButton);
 
     await waitFor(() => {

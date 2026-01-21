@@ -1,6 +1,11 @@
-export type FileInfo = Record<string, string[]>;
+export type FileMetadata = {
+  filename: string;
+  title?: string;
+  author?: string;
+  type?: string;
+};
 
-export async function listFiles(): Promise<FileInfo[]> {
+export async function listFiles(): Promise<FileMetadata[]> {
   const response = await fetch('/list');
   if (!response.ok) {
     throw new Error('Failed to load files');
@@ -56,14 +61,16 @@ export function downloadFile(filename: string): void {
   window.location.href = `/download/${filename}`;
 }
 
-export async function editFileMetadata(
-  filename: string,
-  title: string
-): Promise<void> {
+export async function editFileMetadata({
+  filename,
+  title,
+  author,
+  type,
+}: FileMetadata): Promise<void> {
   const response = await fetch('/metadata', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ [filename]: title }),
+    body: JSON.stringify({ [filename]: { title, author, type } }),
   });
 
   if (!response.ok) {

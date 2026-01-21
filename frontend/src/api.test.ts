@@ -12,7 +12,7 @@ describe('API functions', () => {
 
   describe('listFiles', () => {
     it('should fetch files from /list endpoint', async () => {
-      const mockFiles = [{ 'file1.txt': [] }, { 'file2.pdf': [] }];
+      const mockFiles = [{ filename: 'file1.txt' }, { filename: 'file2.pdf' }];
       vi.stubGlobal(
         'fetch',
         vi.fn().mockResolvedValue({
@@ -169,7 +169,7 @@ describe('API functions', () => {
   });
 
   describe('editFileMetadata', () => {
-    it('should post file metadata as {filename: title} to /metadata endpoint', async () => {
+    it('should post file metadata in correct JSON to /metadata endpoint', async () => {
       vi.stubGlobal(
         'fetch',
         vi.fn().mockResolvedValue({
@@ -177,13 +177,44 @@ describe('API functions', () => {
         })
       );
 
-      await editFileMetadata('myfile.txt', 'My Document Title');
+      await editFileMetadata({
+        filename: 'myfile.txt',
+        title: 'My Document Title',
+        author: 'Author Authorson',
+        type: 'E-Book',
+      });
 
       expect(fetch).toHaveBeenCalledWith('/metadata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          'myfile.txt': 'My Document Title',
+          'myfile.txt': {
+            title: 'My Document Title',
+            author: 'Author Authorson',
+            type: 'E-Book',
+          },
+        }),
+      });
+    });
+
+    it('should post partial file metadata in correct JSON to /metadata endpoint', async () => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+        })
+      );
+
+      await editFileMetadata({
+        filename: 'myfile.txt',
+        title: 'My Document Title',
+      });
+
+      expect(fetch).toHaveBeenCalledWith('/metadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          'myfile.txt': { title: 'My Document Title' },
         }),
       });
     });
@@ -197,9 +228,9 @@ describe('API functions', () => {
         })
       );
 
-      await expect(editFileMetadata('missing.txt', 'Title')).rejects.toThrow(
-        'File not found'
-      );
+      await expect(
+        editFileMetadata({ filename: 'missing.txt', title: 'Title' })
+      ).rejects.toThrow('File not found');
     });
 
     it('should throw error when edit fails', async () => {
@@ -211,9 +242,20 @@ describe('API functions', () => {
         })
       );
 
-      await expect(editFileMetadata('test.txt', 'Title')).rejects.toThrow(
-        'Failed to update file metadata'
+      await expect(
+        editFileMetadata({ filename: 'test.txt', title: 'Title' })
+      ).rejects.toThrow('Failed to update file metadata');
+    });
+
+    it('should throw error when edit fails', async () => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockRejectedValue(new Error('Some Network Error'))
       );
+
+      await expect(
+        editFileMetadata({ filename: 'test.txt', title: 'Title' })
+      ).rejects.toThrow('Some Network Error');
     });
   });
 });

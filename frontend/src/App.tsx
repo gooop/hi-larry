@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
-import { listFiles, deleteFile, downloadFile, editFileMetadata, type FileInfo } from './api';
+import { useEffect, useState } from 'react';
+import {
+  deleteFile,
+  downloadFile,
+  editFileMetadata,
+  FileMetadata,
+  listFiles,
+} from './api';
 import FileList from './components/FileList';
 import FileUploader from './components/FileUploader';
 import GitHubLink from './components/GitHubLink';
 import './colors.css';
 import './styles.css';
 
-type StatusType = 'idle' | 'success' | 'error';
+type Status = 'idle' | 'success' | 'error';
 
 export default function App() {
-  const [files, setFiles] = useState<FileInfo[]>([]);
-  const [operationStatus, setOperationStatus] = useState<StatusType>('idle');
+  const [files, setFiles] = useState<FileMetadata[]>([]);
+  const [operationStatus, setOperationStatus] = useState<Status>('idle');
   const [operationMessage, setOperationMessage] = useState('');
 
   const loadFileList = async () => {
@@ -50,13 +56,20 @@ export default function App() {
     setOperationMessage('');
   };
 
-  const handleEditMetadata = async (filename: string, title: string) => {
+  const handleEditMetadata = async ({
+    filename,
+    title,
+    author,
+    type,
+  }: FileMetadata) => {
     try {
-      await editFileMetadata(filename, title);
+      console.log(author, type);
+      await editFileMetadata({ filename, title, author, type });
       loadFileList();
     } catch (error) {
       setOperationStatus('error');
-      const errorMessage = error instanceof Error ? error.message : 'Failed to edit metadata';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to edit metadata';
       setOperationMessage(`⚠ ERROR: ${errorMessage}`);
     }
   };
