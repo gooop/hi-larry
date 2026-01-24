@@ -58,6 +58,8 @@ h2 {
 
 .upload-section {
     flex: 0 0 auto;
+    /*TODO: Ideally this section doesn't move at all when a user puts a file in the upload box.*/
+    max-width: 40%;
     height: fit-content;
 }
 
