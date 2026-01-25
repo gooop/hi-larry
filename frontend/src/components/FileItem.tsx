@@ -77,44 +77,44 @@ export default function FileItem({
           </button>
         </div>
       </article>
-      {isSelected ? (
-        <article className="file-item-dropdown">
-          <p>{`File Name: ${filename}`}</p>
-          <Input
-            label={'Title'}
-            placeholder={titleInputContents}
-            setFn={setTitleInputContents}
-          />
-          <Input
-            label={'Author'}
-            placeholder={authorInputContents}
-            setFn={setAuthorInputContents}
-          />
-          <Input
-            label={'Type'}
-            placeholder={typeInputContents}
-            setFn={setTypeInputContents}
-          />
-          <button
-            className="button button-icon button-primary"
-            onClick={() =>
-              onEditMetadata({
-                filename,
-                title: titleHasBeenChanged ? titleInputContents : undefined,
-                author: authorHasBeenChanged ? authorInputContents : undefined,
-                type: typeHasBeenChanged ? typeInputContents : undefined,
-              })
-            }
-            aria-label="Save file metadata"
-            disabled={!isSaveEnabled}
-            type="button"
-          >
-            Save
-          </button>
-        </article>
-      ) : (
-        <></>
-      )}
+      <article
+        className={
+          isSelected ? 'file-item-dropdown expanded' : 'file-item-dropdown'
+        }
+      >
+        <p>{`File Name: ${filename}`}</p>
+        <Input
+          label={'Title'}
+          placeholder={titleInputContents}
+          setFn={setTitleInputContents}
+        />
+        <Input
+          label={'Author'}
+          placeholder={authorInputContents}
+          setFn={setAuthorInputContents}
+        />
+        <Input
+          label={'Type'}
+          placeholder={typeInputContents}
+          setFn={setTypeInputContents}
+        />
+        <button
+          className="button button-icon button-primary"
+          onClick={() =>
+            onEditMetadata({
+              filename,
+              title: titleHasBeenChanged ? titleInputContents : undefined,
+              author: authorHasBeenChanged ? authorInputContents : undefined,
+              type: typeHasBeenChanged ? typeInputContents : undefined,
+            })
+          }
+          aria-label="Save file metadata"
+          disabled={!isSaveEnabled}
+          type="button"
+        >
+          Save
+        </button>
+      </article>
     </div>
   );
 }
