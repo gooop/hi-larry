@@ -39,7 +39,7 @@ describe('App', () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/file1\.txt/)).toBeInTheDocument();
+      expect(screen.getByText('► file1.txt')).toBeInTheDocument();
       expect(screen.getByText(/title/)).toBeInTheDocument();
     });
 
@@ -66,7 +66,7 @@ describe('App', () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/test\.txt/)).toBeInTheDocument();
+      expect(screen.getByText('► test.txt')).toBeInTheDocument();
     });
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -81,6 +81,8 @@ describe('App', () => {
 
     // List should be refreshed
     expect(api.listFiles).toHaveBeenCalledTimes(2);
+
+    expect(screen.queryByText('► test.txt')).toBeNull();
   });
 
   it('downloads file when download button clicked', async () => {
@@ -90,7 +92,7 @@ describe('App', () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/test\.txt/)).toBeInTheDocument();
+      expect(screen.getByText('► test.txt')).toBeInTheDocument();
     });
 
     const downloadButton = screen.getByRole('button', {
@@ -108,39 +110,10 @@ describe('App', () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
+      expect(screen.getByText('► document.txt')).toBeInTheDocument();
     });
 
-    const expandableSection = screen.getByText(/document\.txt/i);
-    await userEvent.click(expandableSection);
-
-    const input = screen.getByLabelText('Title');
-    await userEvent.type(input, 'My Document Title');
-
-    const confirmButton = screen.getByRole('button', { name: /save/i });
-    await userEvent.click(confirmButton);
-
-    await waitFor(() => {
-      expect(api.editFileMetadata).toHaveBeenCalledWith({
-        filename: 'document.txt',
-        title: 'My Document Title',
-      });
-    });
-
-    expect(api.listFiles).toHaveBeenCalledTimes(2);
-  });
-
-  it('edits file metadata when modal is submitted', async () => {
-    vi.mocked(api.listFiles).mockResolvedValue([{ filename: 'document.txt' }]);
-    vi.mocked(api.editFileMetadata).mockResolvedValue(undefined);
-
-    render(<App />);
-
-    await waitFor(() => {
-      expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
-    });
-
-    const expandableSection = screen.getByText(/document\.txt/i);
+    const expandableSection = screen.getByText('► document.txt');
     await userEvent.click(expandableSection);
 
     const titleInput = screen.getByLabelText('Title');
@@ -177,10 +150,10 @@ describe('App', () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/document\.txt/)).toBeInTheDocument();
+      expect(screen.getByText('► document.txt')).toBeInTheDocument();
     });
 
-    const expandableSection = screen.getByText(/document\.txt/i);
+    const expandableSection = screen.getByText('► document.txt');
     await userEvent.click(expandableSection);
 
     const input = screen.getByLabelText('Title');

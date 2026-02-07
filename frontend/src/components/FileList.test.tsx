@@ -34,9 +34,9 @@ describe('FileList', () => {
       />
     );
 
-    expect(screen.getByText(/file1\.txt/)).toBeInTheDocument();
-    expect(screen.getByText(/file2\.pdf/)).toBeInTheDocument();
-    expect(screen.queryByText(/image\.png/)).not.toBeInTheDocument();
+    expect(screen.getByText('► file1.txt')).toBeInTheDocument();
+    expect(screen.getByText('► file2.pdf')).toBeInTheDocument();
+    expect(screen.queryByText('► image.png')).not.toBeInTheDocument();
     expect(screen.getByText(/My Awesome Document/)).toBeInTheDocument();
   });
 
