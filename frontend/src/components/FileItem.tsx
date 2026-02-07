@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Input from './Input.tsx';
 
 import { FileMetadata } from '../api.ts';
-import TypeIcon from "./TypeIcon.tsx";
+import TypeIcon from './TypeIcon.tsx';
 
 interface FileItemProps {
   fileMetadata: FileMetadata;
@@ -20,24 +20,23 @@ export default function FileItem({
   const { filename, title: customTitle, author, type } = fileMetadata;
   const title = customTitle === '' ? filename : (customTitle ?? filename);
   const [isSelected, setIsSelected] = useState(false);
-  const [titleInputContents, setTitleInputContents] = useState(title);
-  const [authorInputContents, setAuthorInputContents] = useState(author ?? '');
-  const [typeInputContents, setTypeInputContents] = useState(type ?? '');
+  const [titleInputValue, setTitleInputValue] = useState('');
+  const [authorInputValue, setAuthorInputValue] = useState('');
+  const [typeInputValue, setTypeInputValue] = useState('');
 
   const handleSelectionChange = (selected: boolean) => {
     if (!selected) {
-      setTitleInputContents(title);
-      setAuthorInputContents(author ?? '');
-      setTypeInputContents(type ?? '');
+      setTitleInputValue('');
+      setAuthorInputValue('');
+      setTypeInputValue('');
     }
     setIsSelected(selected);
   };
   const titleHasBeenChanged =
-    titleInputContents !== title && titleInputContents !== '';
+    titleInputValue !== title && titleInputValue !== '';
   const authorHasBeenChanged =
-    authorInputContents !== author && authorInputContents !== '';
-  const typeHasBeenChanged =
-    typeInputContents !== type && typeInputContents !== '';
+    authorInputValue !== author && authorInputValue !== '';
+  const typeHasBeenChanged = typeInputValue !== type && typeInputValue !== '';
   const isSaveEnabled =
     titleHasBeenChanged || authorHasBeenChanged || typeHasBeenChanged;
 
@@ -87,27 +86,30 @@ export default function FileItem({
         <p>{`File Name: ${filename}`}</p>
         <Input
           label={'Title'}
-          placeholder={titleInputContents}
-          setFn={setTitleInputContents}
+          placeholder={title}
+          value={titleInputValue}
+          setFn={setTitleInputValue}
         />
         <Input
           label={'Author'}
-          placeholder={authorInputContents}
-          setFn={setAuthorInputContents}
+          placeholder={author ?? ''}
+          value={authorInputValue}
+          setFn={setAuthorInputValue}
         />
         <Input
           label={'Type'}
-          placeholder={typeInputContents}
-          setFn={setTypeInputContents}
+          placeholder={type ?? ''}
+          value={typeInputValue}
+          setFn={setTypeInputValue}
         />
         <button
           className="button button-icon button-primary"
           onClick={() =>
             onEditMetadata({
               filename,
-              title: titleHasBeenChanged ? titleInputContents : undefined,
-              author: authorHasBeenChanged ? authorInputContents : undefined,
-              type: typeHasBeenChanged ? typeInputContents : undefined,
+              title: titleHasBeenChanged ? titleInputValue : undefined,
+              author: authorHasBeenChanged ? authorInputValue : undefined,
+              type: typeHasBeenChanged ? typeInputValue : undefined,
             })
           }
           aria-label="Save file metadata"

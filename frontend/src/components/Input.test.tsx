@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Input from './Input.tsx';
@@ -9,23 +10,36 @@ describe('Input', () => {
       <Input
         label={'Label'}
         placeholder={'Placeholder'}
+        value={'Value'}
         setFn={() => {}}
       ></Input>
     );
 
-    expect(screen.getByText('Label')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Placeholder')).toBeInTheDocument();
+    let input = screen.getByLabelText('Label');
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveValue('Value');
+    expect(input).toHaveAttribute('placeholder', 'Placeholder');
   });
 
   it('calls back to setFn when set', async () => {
     const setFn = vi.fn();
-    render(
-      <Input
-        label={'Label'}
-        placeholder={'Another Placeholder'}
-        setFn={setFn}
-      ></Input>
-    );
+
+    function Wrapper() {
+      const [value, setValue] = useState('');
+      return (
+        <Input
+          label={'Label'}
+          placeholder={'Another Placeholder'}
+          value={value}
+          setFn={(v) => {
+            setValue(v);
+            setFn(v);
+          }}
+        />
+      );
+    }
+
+    render(<Wrapper />);
 
     let input = screen.getByPlaceholderText('Another Placeholder');
     expect(input).toBeInTheDocument();
