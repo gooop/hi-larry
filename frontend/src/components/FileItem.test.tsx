@@ -72,6 +72,52 @@ describe('FileItem', () => {
     expect(saveButton).toHaveAttribute('type', 'button');
   });
 
+  it('displays a nice icon with metadata', () => {
+    let filename = 'A_file_name';
+    let title = 'A file';
+    let author = 'Bo Jenkins';
+    const renderWithType = (type: string): typeof unmount => {
+      const { unmount } = render(
+        <FileItem
+          fileMetadata={{
+            filename,
+            title,
+            author,
+            type,
+          }}
+          onDownload={() => {}}
+          onEditMetadata={() => {}}
+          openDeleteModal={() => {}}
+        />
+      );
+      return unmount;
+    };
+
+    let unmount = renderWithType('E-book');
+    expect(screen.getByText('🕮\uFE0E')).toBeInTheDocument();
+    expect(screen.queryByText('♫\uFE0E')).toBeNull();
+    unmount();
+
+    unmount = renderWithType('Book');
+    expect(screen.getByText('🕮\uFE0E')).toBeInTheDocument();
+    expect(screen.queryByText('♫\uFE0E')).toBeNull();
+    unmount();
+
+    unmount = renderWithType('Audiobook');
+    expect(screen.getByText('♫\uFE0E')).toBeInTheDocument();
+    expect(screen.queryByText('🕮\uFE0E')).toBeNull();
+    unmount();
+
+    unmount = renderWithType('Anthology');
+    expect(screen.getByText('📚\uFE0E')).toBeInTheDocument();
+    unmount();
+
+    unmount = renderWithType('Essay');
+    expect(screen.getByText('🗏\uFE0E')).toBeInTheDocument();
+    expect(screen.queryByText('🕮\uFE0E')).toBeNull();
+    unmount();
+  });
+
   it('calls back with correct information on save', async () => {
     const filename = 'A_file_name';
     const title = 'A file';

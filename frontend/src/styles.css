@@ -255,7 +255,6 @@ input[type="file"]::file-selector-button:hover {
     align-items: center;
     border: 2px solid var(--color-gray-dark);
     box-shadow: 2px 2px 0 var(--shadow-light);
-    gap: 1rem;
 }
 
 .file-item input[type="checkbox"] {
@@ -309,12 +308,14 @@ input[type="file"]::file-selector-button:hover {
     gap: 1rem;
     width: 100%;
     max-height: 0;
+    margin-top: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
+    transition: max-height 0.2s ease-out, margin-top 0.2s ease-out;
 }
 
 .file-item-dropdown.expanded {
     max-height: 30rem;
+    margin-top: 1rem;
 }
 
 .file-item-dropdown .button {
@@ -326,6 +327,24 @@ input[type="file"]::file-selector-button:hover {
 .file-item-author-text {
     font-size: 1.2rem;
     padding-left: 2rem;
+}
+
+.file-item-type-badge {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 1.6rem;
+}
+
+.file-item-type-badge.book {
+    font-size: 1.6rem;
+}
+
+.file-item-type-badge.audiobook {
+    font-size: 2rem;
 }
 
 /* Status messages */
@@ -544,7 +563,6 @@ input[type="file"]::file-selector-button:hover {
     .file-item {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
     }
 
     .file-item-header {
@@ -566,6 +584,7 @@ input[type="file"]::file-selector-button:hover {
         flex-direction: row;
         gap: 1rem;
         width: 100%;
+        justify-content: space-between;
     }
 
     .tv-frame {

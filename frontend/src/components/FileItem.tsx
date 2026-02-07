@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Input from './Input.tsx';
 
 import { FileMetadata } from '../api.ts';
+import TypeIcon from "./TypeIcon.tsx";
 
 interface FileItemProps {
   fileMetadata: FileMetadata;
@@ -60,6 +61,7 @@ export default function FileItem({
           </p>
         </label>
         <div className="file-buttons-group">
+          <TypeIcon type={type}></TypeIcon>
           <button
             type="button"
             className="button button-primary"
