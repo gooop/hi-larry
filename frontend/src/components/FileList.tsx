@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { FileMetadata } from '../api';
 import DeleteModal from './DeleteModal.tsx';
 import FileItem from './FileItem.tsx';
@@ -34,6 +34,14 @@ export default function FileList({
     closeDeleteModal();
   }
 
+  const sortedFiles = useMemo(() => {
+    return [...files].sort((a, b) => {
+      const aSort = a.title || a.filename;
+      const bSort = b.title || b.filename;
+      return aSort.localeCompare(bSort);
+    });
+  }, [files]);
+
   if (files.length === 0) {
     return (
       <div style={{ padding: '15px', textAlign: 'center', opacity: 0.6 }}>
@@ -44,7 +52,7 @@ export default function FileList({
 
   return (
     <form>
-      {files.map((file) => {
+      {sortedFiles.map((file) => {
         return (
           <FileItem
             fileMetadata={file}

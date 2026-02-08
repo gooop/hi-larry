@@ -167,6 +167,38 @@ describe('FileList', () => {
     expect(onDelete).toHaveBeenCalledWith('actual-file.txt');
   });
 
+  it('renders files sorted alphabetically by title, falling back to filename', () => {
+    const files: FileMetadata[] = [
+      { filename: 'zebra.txt' },
+      { filename: 'apple.pdf', title: 'Banana Book' },
+      { filename: 'berry.txt', title: '' },
+      { filename: 'aardvark.txt', title: '' },
+      { filename: 'mango.doc', title: 'Alpha Guide' },
+      { filename: 'donut.txt', title: '' },
+      { filename: 'cherry.txt', title: '' },
+    ];
+
+    render(
+      <FileList
+        files={files}
+        onDownload={() => {}}
+        onDelete={() => {}}
+        onEditMetadata={() => {}}
+      />
+    );
+
+    const items = screen.getAllByText(/^[►▼]/).map((el) => el.textContent);
+    expect(items).toEqual([
+      '► aardvark.txt',
+      '► Alpha Guide',
+      '► Banana Book',
+      '► berry.txt',
+      '► cherry.txt',
+      '► donut.txt',
+      '► zebra.txt',
+    ]);
+  });
+
   it('renders download and delete buttons for each file', () => {
     const files: FileMetadata[] = [
       { filename: 'file1.txt', title: 'Title 1' },
