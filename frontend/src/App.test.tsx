@@ -122,7 +122,7 @@ describe('App', () => {
     const authorInput = screen.getByLabelText('Author');
     await userEvent.type(authorInput, 'Augthor');
 
-    await userEvent.selectOptions(screen.getByLabelText('Type'), 'E-book');
+    await userEvent.selectOptions(screen.getByLabelText('Type'), 'Book');
 
     const confirmButton = screen.getByRole('button', { name: /save/i });
     await userEvent.click(confirmButton);
@@ -132,7 +132,7 @@ describe('App', () => {
         filename: 'document.txt',
         title: 'Cool Title!',
         author: 'Augthor',
-        type: 'E-book',
+        type: 'Book',
       });
     });
 

@@ -181,7 +181,7 @@ describe('API functions', () => {
         filename: 'myfile.txt',
         title: 'My Document Title',
         author: 'Author Authorson',
-        type: 'E-Book',
+        type: 'Book',
       });
 
       expect(fetch).toHaveBeenCalledWith('/metadata', {
@@ -191,7 +191,7 @@ describe('API functions', () => {
           'myfile.txt': {
             title: 'My Document Title',
             author: 'Author Authorson',
-            type: 'E-Book',
+            type: 'Book',
           },
         }),
       });

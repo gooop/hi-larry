@@ -11,7 +11,6 @@ describe('typeIcon', () => {
 
   it.each([
     { type: 'Book', icon: '🕮\uFE0E', titleText: 'Book' },
-    { type: 'E-book', icon: '🕮\uFE0E', titleText: 'Book' },
     { type: 'Audiobook', icon: '♫\uFE0E', titleText: 'Audiobook' },
     { type: 'Anthology', icon: '📚\uFE0E', titleText: 'Anthology' },
     { type: 'Essay', icon: '🗏\uFE0E', titleText: 'Essay' },

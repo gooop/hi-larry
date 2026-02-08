@@ -33,7 +33,6 @@ describe('Dropdown', () => {
     expect(options.map((o) => o.textContent)).toEqual([
       '',
       'Book',
-      'E-book',
       'Audiobook',
       'Anthology',
       'Essay',

@@ -15,7 +15,6 @@ export default function Dropdown({ label, value, setFn }: DropdownProps) {
       >
         <option value=""></option>
         <option value="Book">Book</option>
-        <option value="E-book">E-book</option>
         <option value="Audiobook">Audiobook</option>
         <option value="Anthology">Anthology</option>
         <option value="Essay">Essay</option>

@@ -96,12 +96,7 @@ describe('FileItem', () => {
       return unmount;
     };
 
-    let unmount = renderWithType('E-book');
-    expect(screen.getByText('🕮\uFE0E')).toBeInTheDocument();
-    expect(screen.queryByText('♫\uFE0E')).toBeNull();
-    unmount();
-
-    unmount = renderWithType('Book');
+    let unmount = renderWithType('Book');
     expect(screen.getByText('🕮\uFE0E')).toBeInTheDocument();
     expect(screen.queryByText('♫\uFE0E')).toBeNull();
     unmount();
@@ -125,7 +120,7 @@ describe('FileItem', () => {
     const filename = 'A_file_name';
     const title = 'A file';
     const author = 'Bo Jenkins';
-    const type = 'E-book';
+    const type = 'Book';
     const editMetadataFn = vi.fn();
     render(
       <FileItem
@@ -169,7 +164,7 @@ describe('FileItem', () => {
     const filename = 'A_file_name';
     const title = 'A file';
     const author = 'Bo Jenkins';
-    const type = 'E-book';
+    const type = 'Book';
     const editMetadataFn = vi.fn();
     render(
       <FileItem
@@ -286,7 +281,7 @@ describe('FileItem', () => {
           filename: 'test-file.txt',
           title,
           author,
-          type: 'E-book',
+          type: 'Book',
         }}
         onDownload={() => {}}
         onEditMetadata={() => {}}

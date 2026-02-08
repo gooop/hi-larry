@@ -6,7 +6,7 @@ export default function TypeIcon({ type }: TypeIconProps) {
   // &#xFE0E; is a variation selector that forces text presentation.
   return (
     <>
-      {(type === 'Book' || type === 'E-book') && (
+      {type === 'Book' && (
         <p title="Book" className="file-item-type-badge book">
           🕮&#xFE0E;
         </p>
