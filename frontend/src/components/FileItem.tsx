@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Dropdown from './Dropdown.tsx';
 import Input from './Input.tsx';
 
 import { FileMetadata } from '../api.ts';
@@ -22,7 +23,7 @@ export default function FileItem({
   const [isSelected, setIsSelected] = useState(false);
   const [titleInputValue, setTitleInputValue] = useState('');
   const [authorInputValue, setAuthorInputValue] = useState('');
-  const [typeInputValue, setTypeInputValue] = useState('');
+  const [typeInputValue, setTypeInputValue] = useState(type ?? '');
 
   const handleSelectionChange = (selected: boolean) => {
     if (!selected) {
@@ -96,9 +97,8 @@ export default function FileItem({
           value={authorInputValue}
           setFn={setAuthorInputValue}
         />
-        <Input
+        <Dropdown
           label={'Type'}
-          placeholder={type ?? ''}
           value={typeInputValue}
           setFn={setTypeInputValue}
         />

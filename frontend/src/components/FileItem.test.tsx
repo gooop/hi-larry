@@ -37,7 +37,7 @@ describe('FileItem', () => {
     let filename = 'A_file_name';
     let title = 'A file';
     let author = 'Bo Jenkins';
-    let type = 'E-book';
+    let type = 'Book';
     render(
       <FileItem
         fileMetadata={{
@@ -67,7 +67,7 @@ describe('FileItem', () => {
     expect(screen.getByLabelText('Type')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('A file')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Bo Jenkins')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('E-book')).toBeInTheDocument();
+    expect(screen.getByLabelText('Type')).toHaveValue('Book');
 
     const saveButton = screen.getByRole('button', { name: /save/i });
     expect(saveButton).toBeInTheDocument();
@@ -151,9 +151,7 @@ describe('FileItem', () => {
 
     const authorInput = screen.getByPlaceholderText('Bo Jenkins');
     await userEvent.type(authorInput, 'Author Authorson');
-    //TODO: type can be a dropdown?
-    const typeInput = screen.getByPlaceholderText('E-book');
-    await userEvent.type(typeInput, 'Audiobook');
+    await userEvent.selectOptions(screen.getByLabelText('Type'), 'Audiobook');
 
     saveButton = screen.getByRole('button', { name: /save/i });
     expect(saveButton).toBeInTheDocument();
@@ -255,6 +253,26 @@ describe('FileItem', () => {
     await user.click(deleteButton);
 
     expect(downloadFn).toHaveBeenCalledWith('filename');
+  });
+
+  it('shows the current type as the selected dropdown value', async () => {
+    render(
+      <FileItem
+        fileMetadata={{
+          filename: 'test-file.txt',
+          title: 'A Title',
+          author: 'An Author',
+          type: 'Audiobook',
+        }}
+        onDownload={() => {}}
+        onEditMetadata={() => {}}
+        openDeleteModal={() => {}}
+      />
+    );
+
+    await userEvent.click(screen.getByText('► A Title'));
+
+    expect(screen.getByLabelText('Type')).toHaveValue('Audiobook');
   });
 
   it('resets input state when dropdown is closed and reopened', async () => {
