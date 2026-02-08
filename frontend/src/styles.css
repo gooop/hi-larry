@@ -337,10 +337,7 @@ input[type="file"]::file-selector-button:hover {
     justify-content: center;
     line-height: 1;
     font-size: 1.6rem;
-}
-
-.file-item-type-badge.book {
-    font-size: 1.6rem;
+    user-select: none;
 }
 
 .file-item-type-badge.audiobook {

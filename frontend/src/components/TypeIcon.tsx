@@ -7,16 +7,24 @@ export default function TypeIcon({ type }: TypeIconProps) {
   return (
     <>
       {(type === 'Book' || type === 'E-book') && (
-        <p className="file-item-type-badge book">🕮&#xFE0E;</p>
+        <p title="Book" className="file-item-type-badge book">
+          🕮&#xFE0E;
+        </p>
       )}
       {type === 'Audiobook' && (
-        <p className="file-item-type-badge audiobook">♫&#xFE0E;</p>
+        <p title="Audiobook" className="file-item-type-badge audiobook">
+          ♫&#xFE0E;
+        </p>
       )}
       {type === 'Anthology' && (
-        <p className="file-item-type-badge anthology">📚&#xFE0E;</p>
+        <p title="Anthology" className="file-item-type-badge anthology">
+          📚&#xFE0E;
+        </p>
       )}
       {type === 'Essay' && (
-        <p className="file-item-type-badge essay">🗏&#xFE0E;</p>
+        <p title="Essay" className="file-item-type-badge essay">
+          🗏&#xFE0E;
+        </p>
       )}
     </>
   );
