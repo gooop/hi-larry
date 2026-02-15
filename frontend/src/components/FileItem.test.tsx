@@ -97,22 +97,27 @@ describe('FileItem', () => {
     };
 
     let unmount = renderWithType('Book');
-    expect(screen.getByText('🕮\uFE0E')).toBeInTheDocument();
-    expect(screen.queryByText('♫\uFE0E')).toBeNull();
+    expect(screen.getByRole('img', { name: 'Book' })).toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: 'Audiobook' })).toBeNull();
     unmount();
 
     unmount = renderWithType('Audiobook');
-    expect(screen.getByText('♫\uFE0E')).toBeInTheDocument();
-    expect(screen.queryByText('🕮\uFE0E')).toBeNull();
+    expect(screen.getByRole('img', { name: 'Audiobook' })).toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: 'Book' })).toBeNull();
     unmount();
 
     unmount = renderWithType('Anthology');
-    expect(screen.getByText('📚\uFE0E')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Anthology' })).toBeInTheDocument();
     unmount();
 
     unmount = renderWithType('Essay');
-    expect(screen.getByText('🗏\uFE0E')).toBeInTheDocument();
-    expect(screen.queryByText('🕮\uFE0E')).toBeNull();
+    expect(screen.getByRole('img', { name: 'Essay' })).toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: 'Book' })).toBeNull();
+    unmount();
+
+    unmount = renderWithType('Whitepaper');
+    expect(screen.getByRole('img', { name: 'Whitepaper' })).toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: 'Book' })).toBeNull();
     unmount();
   });
 

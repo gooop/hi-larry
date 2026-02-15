@@ -36,6 +36,7 @@ describe('Dropdown', () => {
       'Audiobook',
       'Anthology',
       'Essay',
+      'Whitepaper',
     ]);
   });
 });

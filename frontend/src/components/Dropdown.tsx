@@ -18,6 +18,7 @@ export default function Dropdown({ label, value, setFn }: DropdownProps) {
         <option value="Audiobook">Audiobook</option>
         <option value="Anthology">Anthology</option>
         <option value="Essay">Essay</option>
+        <option value="Whitepaper">Whitepaper</option>
       </select>
       <label htmlFor={label} className="input-label">
         {label}

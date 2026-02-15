@@ -345,10 +345,6 @@ input[type="file"]::file-selector-button:hover {
     user-select: none;
 }
 
-.file-item-type-badge.audiobook {
-    font-size: 2rem;
-}
-
 /* Status messages */
 .status {
     margin-top: 1.5rem;
